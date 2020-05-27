@@ -52,27 +52,8 @@ function List({ route, navigation }) {
       <ListItem.Item
         title="First Item"
         description="Item description"
-        left={props => <ListItem.Icon {...props} icon="folder" />}
-      />
-      <ListItem.Item
-        title="First Item"
-        description="Item description"
-        left={props => <ListItem.Icon {...props} icon="folder" />}
-      />
-      <ListItem.Item
-        title="First Item"
-        description="Item description"
-        left={props => <ListItem.Icon {...props} icon="folder" />}
-      />
-      <ListItem.Item
-        title="First Item"
-        description="Item description"
-        left={props => <ListItem.Icon {...props} icon="folder" />}
-      />
-      <ListItem.Item
-        title="First Item"
-        description="Item description"
-        left={props => <ListItem.Icon {...props} icon="folder" />}
+        left={props => <ListItem.Icon {...props} icon="car" />}
+        onPress={() => console.log('TEST')}
       />
       <FAB
         style={styles.fab}
@@ -116,6 +97,7 @@ function Details({ navigation }) {
 
       <FAB
         style={styles.fab}
+        icon="content-save"
         label="Kaydet"
         onPress={() => console.log('Pressed')}
       />
