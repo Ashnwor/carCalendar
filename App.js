@@ -112,9 +112,13 @@ function Details({ navigation }) {
 
       <ListItem.Item title="Alım tarihi"
         description={Date()}
-        left={props => <ListItem.Icon {...props} icon="clock" />} onPress={() => showDatepicker()} >Alım Tarihi</ListItem.Item>
+        left={props => <ListItem.Icon {...props} icon="calendar" />} onPress={() => showDatepicker()} >Alım Tarihi</ListItem.Item>
 
-      <Button mode='contained' onPress={() => navigation.navigate('Details')} style={styles.saveBtn}>KAYDET</Button>
+      <FAB
+        style={styles.fab}
+        label="Kaydet"
+        onPress={() => console.log('Pressed')}
+      />
 
       {show && (
         <DateTimePicker
