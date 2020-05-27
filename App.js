@@ -61,7 +61,6 @@ function List({ navigation }) {
 
 function Details({ navigation }) {
   const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
@@ -128,7 +127,7 @@ const styles = StyleSheet.create({
 
   calendar: {
     width: '100%',
-    height: '80%',
+    height: '100%',
   },
 
   saveBtn: {
