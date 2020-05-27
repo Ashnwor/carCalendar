@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React, {useState} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
+import { StyleSheet, View } from 'react-native';
+import { Calendar } from 'react-native-calendars';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as PaperProvider } from 'react-native-paper';
