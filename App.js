@@ -1,5 +1,5 @@
 import 'react-native-gesture-handler';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Platform, StatusBar } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { NavigationContainer } from '@react-navigation/native';
@@ -31,7 +31,6 @@ function HomeScreen({ navigation }) {
   });
   return (
     <View style={styles.container}>
-      <StatusBar backgroundColor={theme.colors.primary} barStyle='light-content' />
       <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()}
       />
     </View>
@@ -137,9 +136,9 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    
     <PaperProvider theme={theme}>
       <NavigationContainer>
+        <StatusBar backgroundColor={theme.colors.primary} barStyle='light-content' />
         <Stack.Navigator>
           <Stack.Screen name="Calendar" component={HomeScreen} />
           <Stack.Screen name="List" component={List} />
