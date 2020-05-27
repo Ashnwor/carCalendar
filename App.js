@@ -10,7 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 
 function OpenList(navigation, day) {
   console.log(day);
-  navigation.navigate('List');
+  navigation.navigate('List', day);
 }
 
 function HomeScreen({ navigation }) {
@@ -22,7 +22,12 @@ function HomeScreen({ navigation }) {
   )
 }
 
-function List({ navigation }) {
+function List({ route, navigation }) {
+  const day = route.params;
+  navigation.setOptions({
+    headerTitle: day.dateString
+  });
+  
   return (
     <View style={styles.container}>
       <ListItem.Item
