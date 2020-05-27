@@ -1,12 +1,21 @@
 import 'react-native-gesture-handler';
 import React, {useState} from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform, StatusBar } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Provider as PaperProvider } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { TextInput, Button, FAB, List as ListItem } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    headerText: '#fff'
+  },
+};
 
 function OpenList(navigation, day) {
   console.log(day);
@@ -14,8 +23,15 @@ function OpenList(navigation, day) {
 }
 
 function HomeScreen({ navigation }) {
+  navigation.setOptions({
+    headerStyle: {
+      backgroundColor: theme.colors.primary,
+    },
+    headerTintColor: theme.colors.headerText,
+  });
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor={theme.colors.primary} barStyle='light-content' />
       <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()}
       />
     </View>
@@ -25,7 +41,11 @@ function HomeScreen({ navigation }) {
 function List({ route, navigation }) {
   const day = route.params;
   navigation.setOptions({
-    headerTitle: day.dateString
+    headerTitle: day.dateString,
+    headerStyle: {
+      backgroundColor: theme.colors.primary,
+    },
+    headerTintColor: theme.colors.headerText,
   });
 
   return (
@@ -65,6 +85,13 @@ function List({ route, navigation }) {
 }
 
 function Details({ navigation }) {
+  navigation.setOptions({
+    headerStyle: {
+      backgroundColor: theme.colors.primary,
+    },
+    headerTintColor: theme.colors.headerText,
+  });
+
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
@@ -110,7 +137,8 @@ const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <PaperProvider>
+    
+    <PaperProvider theme={theme}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Calendar" component={HomeScreen} />
