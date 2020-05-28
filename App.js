@@ -33,7 +33,7 @@ function HomeScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()} firstDay={1} renderArrow={(direction) => <Icon name={"chevron-" + direction} size={30} /> }
+      <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()} firstDay={1} renderArrow={(direction) => <Icon name={"chevron-" + direction} size={30} />}
       />
     </View>
   )
@@ -77,25 +77,40 @@ function Details({ navigation }) {
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
 
+  const dateToString = (date) => {
+    const day = date.getDate();
+    let month;
+    let year = date.getFullYear();
+    date.getMonth().toString().length === 1 ? month = '0' + (date.getMonth() + 1).toString() : month = (date.getMonth() + 1).toString()
+    console.log(`${day}-${month}-${year}`);
+    return `${day}-${month}-${year}`;
+  }
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
     setDate(currentDate);
+    console.log(currentDate);
+   
   };
 
   const showDatepicker = () => {
     setShow(true);
   };
 
+  let licensePlate;
+  let brand;
+  let model;
+
   return (
     <View style={styles.container}>
-      <TextInput label='Plaka' />
-      <TextInput label='Marka' />
-      <TextInput label='Model' />
-
-      <ListItem.Item title="Alım tarihi"
-        description={Date()}
-        left={props => <ListItem.Icon {...props} icon="calendar" />} onPress={() => showDatepicker()} >Alım Tarihi</ListItem.Item>
+      <TextInput label='Plaka' onChange={(event) => licensePlate = event.nativeEvent.text} />
+      <TextInput label='Marka' onChange={(event) => brand = event.nativeEvent.text} />
+      <TextInput label='Model' onChange={(event) => model = event.nativeEvent.text} />
+      <ListItem.Item
+        title="Alım Tarihi"
+        description={dateToString(date)}
+        left={props => <ListItem.Icon {...props} icon="calendar" />}
+        onPress={() => showDatepicker()} />
 
       <FAB
         style={styles.fab}
