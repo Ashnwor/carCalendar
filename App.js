@@ -78,13 +78,15 @@ function Details({ navigation }) {
   const [show, setShow] = useState(false);
 
   const dateToString = (date) => {
-    const day = date.getDate();
+    let day;
     let month;
     let year = date.getFullYear();
-    date.getMonth().toString().length === 1 ? month = '0' + (date.getMonth() + 1).toString() : month = (date.getMonth() + 1).toString()
+    date.getDate().toString().length === 1 ? day = '0' + date.getDate().toString() : day = date.getDate().toString();
+    date.getMonth().toString().length === 1 ? month = '0' + (date.getMonth() + 1).toString() : month = (date.getMonth() + 1).toString();
     console.log(`${day}-${month}-${year}`);
     return `${day}-${month}-${year}`;
   }
+
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
