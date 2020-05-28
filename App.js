@@ -8,9 +8,19 @@ import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { TextInput, FAB, List as ListItem } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import AsyncStorage from '@react-native-community/async-storage';
+import SyncStorage from 'sync-storage';
 
-let Dates;
+const getData = () => {
+  try {
+    let Dates;
+    const value = SyncStorage.get('@Dates')
+    value ? Dates = value : Dates = {};
+    return Dates;
+  } catch(e) {
+    // error reading value
+  }
+}
+
 const theme = {
   ...DefaultTheme,
   roundness: 2,
@@ -20,26 +30,14 @@ const theme = {
   },
 };
 
-const getData = async () => {
+const storeData = (value) => {
   try {
-    const value = await AsyncStorage.getItem('@Dates');
-    value ? Dates = value : Dates = {};
-    console.log(Dates);
-  } catch(e) {
-    // error reading value
-  }
-}
-getData();
-
-const storeData = async (value) => {
-  try {
-    await AsyncStorage.setItem('@Dates', value);
+    SyncStorage.set('@Dates', value);
     console.log(value)
   } catch (e) {
     // saving error
   }
 }
-
 
 function OpenList(navigation, day) {
   console.log(day);
@@ -53,10 +51,22 @@ function HomeScreen({ navigation }) {
     },
     headerTintColor: theme.colors.headerText,
   });
-
+  const [dates] = useState(getData());
+  useEffect(() => {console.log('UPDATED')}, [dates]);
+  
+  dates['2020-05-10'] = 'fasfagag';  // TEST DATE
+  console.log(dates);
+  
+  const datesKeys = Object.keys(dates);
+  const markedDates = Object.fromEntries(datesKeys.map(date => [date, {selected: true}]));
   return (
     <View style={styles.container}>
-      <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()} firstDay={1} renderArrow={(direction) => <Icon name={"chevron-" + direction} size={30} />}
+      <Calendar 
+        style={styles.calendar} 
+        onDayPress={(day) => { OpenList(navigation, day); }} 
+        minDate={Date()} firstDay={1} 
+        renderArrow={(direction) => <Icon name={"chevron-" + direction} size={30} />}
+        markedDates={markedDates}
       />
     </View>
   )
