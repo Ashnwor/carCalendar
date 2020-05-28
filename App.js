@@ -126,7 +126,7 @@ export default function App() {
   return (
     <PaperProvider theme={theme}>
       <NavigationContainer>
-        <StatusBar backgroundColor={theme.colors.primary} barStyle='light-content' />
+        <StatusBar translucent backgroundColor="rgba(0,0,0,0.2)" barStyle='light-content' />
         <Stack.Navigator>
           <Stack.Screen name="Calendar" component={HomeScreen} />
           <Stack.Screen name="List" component={List} />
