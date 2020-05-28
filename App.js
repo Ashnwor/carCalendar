@@ -1,14 +1,16 @@
 import 'react-native-gesture-handler';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, Platform, StatusBar } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
-import { TextInput, Button, FAB, List as ListItem } from 'react-native-paper';
+import { TextInput, FAB, List as ListItem } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 
+let Dates;
 const theme = {
   ...DefaultTheme,
   roundness: 2,
@@ -17,6 +19,27 @@ const theme = {
     headerText: '#fff'
   },
 };
+
+const getData = async () => {
+  try {
+    const value = await AsyncStorage.getItem('@Dates');
+    value ? Dates = value : Dates = {};
+    console.log(Dates);
+  } catch(e) {
+    // error reading value
+  }
+}
+getData();
+
+const storeData = async (value) => {
+  try {
+    await AsyncStorage.setItem('@Dates', value);
+    console.log(value)
+  } catch (e) {
+    // saving error
+  }
+}
+
 
 function OpenList(navigation, day) {
   console.log(day);
@@ -73,9 +96,12 @@ function Details({ navigation }) {
     },
     headerTintColor: theme.colors.headerText,
   });
-
+  
   const [date, setDate] = useState(new Date());
   const [show, setShow] = useState(false);
+  const [licensePlate, setLicensePlate] = useState(getData('@license-plate'));
+  const [brand, setBrand] = useState(getData('@brand'))
+  const [model, setModel] = useState(getData('@model'))
 
   const dateToString = (date) => {
     let day;
@@ -99,15 +125,11 @@ function Details({ navigation }) {
     setShow(true);
   };
 
-  let licensePlate;
-  let brand;
-  let model;
-
   return (
     <View style={styles.container}>
-      <TextInput label='Plaka' onChange={(event) => licensePlate = event.nativeEvent.text} />
-      <TextInput label='Marka' onChange={(event) => brand = event.nativeEvent.text} />
-      <TextInput label='Model' onChange={(event) => model = event.nativeEvent.text} />
+      <TextInput label='Plaka' onChange={(event) => setLicensePlate(event.nativeEvent.text)} defaultValue={licensePlate} />
+      <TextInput label='Marka' onChange={(event) => setBrand(event.nativeEvent.text)} defaultValue={brand} />
+      <TextInput label='Model' onChange={(event) => setModel(event.nativeEvent.text)} defaultValue={model} />
       <ListItem.Item
         title="Alım Tarihi"
         description={dateToString(date)}
