@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { DefaultTheme, Provider as PaperProvider } from 'react-native-paper';
 import { TextInput, Button, FAB, List as ListItem } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const theme = {
   ...DefaultTheme,
@@ -29,9 +30,10 @@ function HomeScreen({ navigation }) {
     },
     headerTintColor: theme.colors.headerText,
   });
+
   return (
     <View style={styles.container}>
-      <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()} firstDay={1}
+      <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()} firstDay={1} renderArrow={(direction) => <Icon name={"chevron-" + direction} size={30} /> }
       />
     </View>
   )
