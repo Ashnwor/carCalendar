@@ -31,7 +31,7 @@ function HomeScreen({ navigation }) {
   });
   return (
     <View style={styles.container}>
-      <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()}
+      <Calendar style={styles.calendar} onDayPress={(day) => { OpenList(navigation, day); }} minDate={Date()} firstDay={1}
       />
     </View>
   )
