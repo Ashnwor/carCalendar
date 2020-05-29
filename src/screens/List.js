@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FAB, List as ListItem } from 'react-native-paper';
+import theme from '../theme';
 
 function List({ route, navigation }) {
 	const day = route.params;

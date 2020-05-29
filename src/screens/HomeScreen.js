@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import theme from '../theme';
 
 function HomeScreen({ navigation }) {
 	navigation.setOptions({

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { TextInput, FAB, List as ListItem } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import theme from '../theme';
 
 function Details({ route, navigation }) {
 	const day = route.params;
