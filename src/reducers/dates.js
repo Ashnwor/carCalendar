@@ -12,9 +12,11 @@ const datesReducer = (state = initialState, action) => {
 				isLoading: true,
 			};
 		case 'FETCH_DATES_SUCCESS':
+			let payload;
+			action.payload ? (payload = action.payload) : (payload = {});
 			return {
 				isLoading: false,
-				data: action.payload,
+				data: payload,
 				error: '',
 			};
 		case 'FETCH_DATES_FAILURE':

@@ -49,7 +49,7 @@ function Details({ route, navigation }) {
 	const dates = useSelector((state) => state.dates);
 	const save = (details) => {
 		dispatch(addDate(day.dateString, {}));
-		dispatch(storeDates(dates));
+		dispatch(storeDates(dates.data));
 	};
 
 	return (
