@@ -39,6 +39,18 @@ const datesReducer = (state = initialState, action) => {
 				isLoading: false,
 				error: action.payload,
 			};
+		case 'ADD_DATE':
+			return {
+				...state,
+				data: {
+					...state.data,
+					[action.newDate]: action.details,
+				},
+			};
+		case 'CLEAN_DATES':
+			return {
+				initialState,
+			};
 		default:
 			return state;
 	}

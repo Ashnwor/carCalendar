@@ -24,3 +24,13 @@ export const storeDatesFailure = (error) => ({
 	type: 'STORE_DATES_FAILURE',
 	payload: error,
 });
+
+export const addDate = (newDate, details) => ({
+	type: 'ADD_DATE',
+	newDate,
+	details,
+});
+
+export const cleanDates = () => ({
+	type: 'CLEAN_DATES',
+});
