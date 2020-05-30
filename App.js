@@ -1,12 +1,13 @@
 import React from 'react';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider as ReduxProvider } from 'react-redux';
+import thunkMiddleware from 'redux-thunk';
 import allReducers from './src/reducers';
 import { Provider as PaperProvider } from 'react-native-paper';
 import CalendarApp from './src/CalendarApp';
 import theme from './src/theme';
 
-const store = createStore(allReducers);
+const store = createStore(allReducers, applyMiddleware(thunkMiddleware));
 
 export default function App() {
 	return (

@@ -4,7 +4,14 @@ import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../theme';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { GetDates } from '../actions';
+
 function HomeScreen({ navigation }) {
+	const dispatch = useDispatch();
+	// dispatch(GetDates());
+	const dates = useSelector((state) => state.dates);
+	console.log(dates);
 	navigation.setOptions({
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
