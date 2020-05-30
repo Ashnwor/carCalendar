@@ -1,5 +1,3 @@
-import { getData } from '../utils';
-
 const initialState = {
 	isLoading: false,
 	data: {},
@@ -22,7 +20,23 @@ const datesReducer = (state = initialState, action) => {
 		case 'FETCH_DATES_FAILURE':
 			return {
 				isLoading: false,
-				data: [],
+				data: {},
+				error: action.payload,
+			};
+		case 'STORE_DATES_REQUEST':
+			return {
+				...state,
+				isLoading: true,
+			};
+		case 'STORE_DATES_SUCCESS':
+			return {
+				...state,
+				isLoading: false,
+			};
+		case 'STORE_DATES_FAILURE':
+			return {
+				...state,
+				isLoading: false,
 				error: action.payload,
 			};
 		default:

@@ -7,6 +7,20 @@ export const fetchDatesSuccess = (dates) => ({
 	payload: dates,
 });
 
-export const fetchUsersFailure = (error) => ({
+export const fetchDatesFailure = (error) => ({
 	type: 'FETCH_DATES_FAILURE',
+	payload: error,
+});
+
+export const storeDatesRequest = () => ({
+	type: 'STORE_DATES_REQUEST',
+});
+
+export const storeDatesSuccess = () => ({
+	type: 'STORE_DATES_SUCCESS',
+});
+
+export const storeDatesFailure = (error) => ({
+	type: 'STORE_DATES_FAILURE',
+	payload: error,
 });

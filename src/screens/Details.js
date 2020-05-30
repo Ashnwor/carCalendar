@@ -26,7 +26,10 @@ function Details({ route, navigation }) {
 		date.getMonth().toString().length === 1
 			? (month = '0' + (date.getMonth() + 1).toString())
 			: (month = (date.getMonth() + 1).toString());
-		return `${day}-${month}-${year}`;
+		return {
+			normal: `${day}-${month}-${year}`,
+			reverse: `${year}-${month}-${day}`,
+		};
 	};
 
 	const onChange = (event, selectedDate) => {
@@ -58,7 +61,7 @@ function Details({ route, navigation }) {
 			/>
 			<ListItem.Item
 				title="Alım Tarihi"
-				description={dateToString(date)}
+				description={dateToString(date).normal}
 				left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 				onPress={() => showDatepicker()}
 			/>
