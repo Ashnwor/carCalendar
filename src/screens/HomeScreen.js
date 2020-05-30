@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -6,13 +6,9 @@ import theme from '../theme';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDates } from '../thunks';
+import { storeData } from '../utils';
 
 function HomeScreen({ navigation }) {
-	const dispatch = useDispatch();
-	// dispatch(GetDates());
-	dispatch(fetchDates());
-	//const dates = useSelector((state) => state.dates);
-	//console.log(dates);
 	navigation.setOptions({
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
@@ -20,12 +16,20 @@ function HomeScreen({ navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(fetchDates());
+	}, []);
+
+	const dates = useSelector((state) => state.dates);
+	console.log(dates);
 	function OpenList(navigation, day) {
 		console.log(day);
 		navigation.navigate('List', day);
 	}
 
-	//	const datesKeys = Object.keys(dates);
+	// const datesKeys = Object.keys(useSelector((state) => state.dates));
 	//	const markedDates = Object.fromEntries(
 	//		datesKeys.map((date) => [date, { selected: true }])
 	//	);
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
 
 	calendar: {
 		width: '100%',
-		height: '100%',
+		height: '90%',
 	},
 });
 export default HomeScreen;

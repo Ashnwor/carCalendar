@@ -2,7 +2,7 @@ import { getData } from '../utils';
 
 const initialState = {
 	isLoading: false,
-	data: [],
+	data: {},
 	error: '',
 };
 
@@ -11,17 +11,17 @@ const datesReducer = (state = initialState, action) => {
 		case 'FETCH_DATES_REQUEST':
 			return {
 				...state,
-				loading: true,
+				isLoading: true,
 			};
 		case 'FETCH_DATES_SUCCESS':
 			return {
-				loading: false,
+				isLoading: false,
 				data: action.payload,
 				error: '',
 			};
 		case 'FETCH_DATES_FAILURE':
 			return {
-				loading: false,
+				isLoading: false,
 				data: [],
 				error: action.payload,
 			};

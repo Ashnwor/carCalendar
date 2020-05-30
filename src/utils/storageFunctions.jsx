@@ -9,9 +9,9 @@ const getData = async (key) => {
 	}
 };
 
-const storeData = async (value) => {
+const storeData = async (key, value) => {
 	try {
-		const jsonValue = JSON.stringify(key, value);
+		const jsonValue = JSON.stringify(value);
 		await AsyncStorage.setItem(key, jsonValue);
 	} catch (e) {
 		// saving error
