@@ -5,8 +5,9 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../theme';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchDates } from '../thunks';
+import { fetchDates, storeDates } from '../thunks';
 import { storeData } from '../utils';
+import { cleanDates } from '../actions';
 
 function HomeScreen({ navigation }) {
 	navigation.setOptions({
@@ -20,6 +21,8 @@ function HomeScreen({ navigation }) {
 
 	useEffect(() => {
 		dispatch(fetchDates());
+		// dispatch(cleanDates());
+		// dispatch(storeDates({}));
 	}, []);
 
 	const dates = useSelector((state) => state.dates);
@@ -29,11 +32,12 @@ function HomeScreen({ navigation }) {
 		navigation.navigate('List', day);
 	}
 
-	// const datesKeys = Object.keys(useSelector((state) => state.dates));
-	//	const markedDates = Object.fromEntries(
-	//		datesKeys.map((date) => [date, { selected: true }])
-	//	);
+	const datesKeys = Object.keys(useSelector((state) => state.dates.data));
+	const markedDates = Object.fromEntries(
+		datesKeys.map((date) => [date, { selected: true }])
+	);
 
+	// console.log(markedDates);
 	return (
 		<View style={styles.container}>
 			<Calendar
@@ -46,7 +50,7 @@ function HomeScreen({ navigation }) {
 				renderArrow={(direction) => (
 					<Icon name={'chevron-' + direction} size={30} />
 				)}
-				//	markedDates={markedDates}
+				markedDates={markedDates}
 			/>
 		</View>
 	);

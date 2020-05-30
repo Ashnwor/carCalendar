@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
-import { TextInput, FAB, List as ListItem } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import theme from '../theme';
+import { addDate } from '../actions';
+import { storeDates } from '../thunks';
 
 function Details({ route, navigation }) {
 	const day = route.params;
+	const dispatch = useDispatch();
 	navigation.setOptions({
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
@@ -42,6 +46,12 @@ function Details({ route, navigation }) {
 		setShow(true);
 	};
 
+	const dates = useSelector((state) => state.dates);
+	const save = (details) => {
+		dispatch(addDate(day.dateString, {}));
+		dispatch(storeDates(dates));
+	};
+
 	return (
 		<View style={styles.container}>
 			<TextInput
@@ -66,13 +76,6 @@ function Details({ route, navigation }) {
 				onPress={() => showDatepicker()}
 			/>
 
-			<FAB
-				style={styles.fab}
-				icon="content-save"
-				label="Kaydet"
-				onPress={() => console.log('Save button pressed')}
-			/>
-
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"
@@ -85,6 +88,13 @@ function Details({ route, navigation }) {
 					maximumDate={new Date()}
 				/>
 			)}
+
+			<FAB
+				style={styles.fab}
+				icon="content-save"
+				label="Kaydet"
+				onPress={() => save()}
+			/>
 		</View>
 	);
 }
