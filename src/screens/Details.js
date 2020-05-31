@@ -20,6 +20,11 @@ function Details({ route, navigation }) {
 	const [date, setDate] = useState(new Date());
 	const [show, setShow] = useState(false);
 
+	const [licensePlate, setLicensePlate] = useState();
+	const [brand, setBrand] = useState();
+	const [model, setModel] = useState();
+	const [retrievalDate, setRetrievalData] = useState();
+
 	const dateToString = (date) => {
 		let day;
 		let month;
@@ -61,17 +66,17 @@ function Details({ route, navigation }) {
 		<View style={styles.container}>
 			<TextInput
 				label="Plaka"
-				onChange={(event) => console.log(event.nativeEvent.text)}
+				onChange={(event) => setLicensePlate(event.nativeEvent.text)}
 				//				defaultValue={licensePlate}
 			/>
 			<TextInput
 				label="Marka"
-				onChange={(event) => console.log(event.nativeEvent.text)}
+				onChange={(event) => setBrand(event.nativeEvent.text)}
 				//				defaultValue={brand}
 			/>
 			<TextInput
 				label="Model"
-				onChange={(event) => console.log(event.nativeEvent.text)}
+				onChange={(event) => setModel(event.nativeEvent.text)}
 				//				defaultValue={model}
 			/>
 			<ListItem.Item
@@ -80,7 +85,6 @@ function Details({ route, navigation }) {
 				left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 				onPress={() => showDatepicker()}
 			/>
-
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"

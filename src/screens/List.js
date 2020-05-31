@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
-import { FAB, List as ListItem } from 'react-native-paper';
+import { FAB, List as ListItem, Headline, Text } from 'react-native-paper';
 import theme from '../theme';
+import { storeData, getData } from '../utils';
 
 function List({ route, navigation }) {
 	const day = route.params.day;
@@ -13,6 +15,34 @@ function List({ route, navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
+	const [dates, setDates] = useState({});
+
+	useFocusEffect(
+		useCallback(() => {
+			console.log('List');
+			let result;
+			getData('storage').then((value) => {
+				result = value;
+				setDates(result);
+				console.log('result: ', result);
+			});
+			// dispatch(fetchDates());
+			// dispatch(cleanDates());
+			// dispatch(storeDates({}));
+		}, [])
+	);
+
+	function NoItemFound() {
+		return (
+			<View style={styles.containerCenter}>
+				<Headline>Bu tarihte kayıtlı araç bulunamadı</Headline>
+				<Text>
+					Araç eklemek için <b>+</b> tuşuna basınız
+				</Text>
+			</View>
+		);
+	}
+
 	return (
 		<View style={styles.container}>
 			<ListItem.Item
@@ -21,6 +51,7 @@ function List({ route, navigation }) {
 				left={(props) => <ListItem.Icon {...props} icon="car" />}
 				onPress={() => console.log('TEST')}
 			/>
+			{!dates[day.dateString] ? <NoItemFound /> : null}
 			<FAB
 				style={styles.fab}
 				icon="plus"
@@ -34,6 +65,13 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
+	},
+
+	containerCenter: {
+		flex: 1,
+		backgroundColor: '#fff',
+		justifyContent: 'center',
+		alignItems: 'center',
 	},
 
 	fab: {
