@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import theme from '../theme';
-import { addDate } from '../actions';
-import { storeDates } from '../thunks';
+import { storeDates, addDate } from '../thunks';
 
 function Details({ route, navigation }) {
 	const day = route.params;
@@ -48,7 +47,9 @@ function Details({ route, navigation }) {
 
 	const dates = useSelector((state) => state.dates);
 	const save = (details) => {
-		dispatch(addDate(day.dateString, {}));
+		console.log('TESTING');
+		dates.data[day.dateString] = {};
+		console.log(dates);
 		dispatch(storeDates(dates.data));
 	};
 

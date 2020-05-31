@@ -13,7 +13,7 @@ const datesReducer = (state = initialState, action) => {
 			};
 		case 'FETCH_DATES_SUCCESS':
 			let payload;
-			action.payload ? (payload = action.payload) : (payload = {});
+			action.payload.data ? (payload = action.payload.data) : (payload = {});
 			return {
 				isLoading: false,
 				data: payload,
@@ -41,13 +41,19 @@ const datesReducer = (state = initialState, action) => {
 				isLoading: false,
 				error: action.payload,
 			};
-		case 'ADD_DATE':
+		case 'ADD_DATE_REQUEST':
 			return {
-				...state,
+				isLoading: true,
 				data: {
 					...state.data,
 					[action.newDate]: action.details,
 				},
+				error: '',
+			};
+		case 'ADD_DATE_DONE':
+			return {
+				...state,
+				isLoading: false,
 			};
 		case 'CLEAN_DATES':
 			return {

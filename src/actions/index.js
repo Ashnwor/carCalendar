@@ -25,12 +25,15 @@ export const storeDatesFailure = (error) => ({
 	payload: error,
 });
 
-export const addDate = (newDate, details) => ({
-	type: 'ADD_DATE',
+export const addDateRequest = (newDate, details) => ({
+	type: 'ADD_DATE_REQUEST',
 	newDate,
 	details,
 });
 
+export const addDateDone = () => ({
+	type: 'ADD_DATE_DONE',
+});
 export const cleanDates = () => ({
 	type: 'CLEAN_DATES',
 });

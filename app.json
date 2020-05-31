@@ -2,7 +2,7 @@
 	"expo": {
 		"name": "calendar",
 		"slug": "calendar",
-		"platforms": ["ios", "android", "web"],
+		"platforms": ["android"],
 		"version": "1.0.0",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
@@ -17,6 +17,10 @@
 		"assetBundlePatterns": ["**/*"],
 		"ios": {
 			"supportsTablet": true
+		},
+		"android": {
+			"package": "com.ashnwor.calendar",
+			"versionCode": 1
 		}
 	}
 }

@@ -6,6 +6,8 @@ import {
 	storeDatesSuccess,
 	storeDatesFailure,
 	storeDatesRequest,
+	addDateRequest,
+	addDateDone,
 } from '../actions';
 
 export const fetchDates = () => {
@@ -18,10 +20,20 @@ export const fetchDates = () => {
 };
 
 export const storeDates = (payload) => {
+	console.log('sfaf');
 	return function (dispatch) {
 		dispatch(storeDatesRequest());
 		storeData('@storage', payload)
-			.then(() => dispatch(storeDatesSuccess()))
+			.then((response) => dispatch(storeDatesSuccess(response)))
 			.catch((error) => dispatch(storeDatesFailure(error)));
+	};
+};
+
+export const addDate = (newDate, details) => {
+	return function (dispatch) {
+		dispatch(addDateRequest(newDate, details));
+		setTimeout(() => {
+			dispatch(addDateDone());
+		}, 500);
 	};
 };
