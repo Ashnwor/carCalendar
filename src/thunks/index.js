@@ -13,9 +13,15 @@ import {
 export const fetchDates = () => {
 	return function (dispatch) {
 		dispatch(fetchDatesRequest());
-		getData('@storage')
-			.then((response) => dispatch(fetchDatesSuccess(response)))
-			.catch((error) => dispatch(fetchDatesFailure(error)));
+		getData('storage')
+			.then((response) => {
+				dispatch(fetchDatesSuccess(response));
+				console.log('response:', response);
+			})
+			.catch((error) => {
+				dispatch(fetchDatesFailure(error));
+				console.log('error:', error);
+			});
 	};
 };
 
@@ -23,7 +29,7 @@ export const storeDates = (payload) => {
 	console.log('sfaf');
 	return function (dispatch) {
 		dispatch(storeDatesRequest());
-		storeData('@storage', payload)
+		storeData('storage', payload)
 			.then((response) => dispatch(storeDatesSuccess(response)))
 			.catch((error) => dispatch(storeDatesFailure(error)));
 	};

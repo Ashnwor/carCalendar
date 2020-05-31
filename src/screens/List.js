@@ -4,7 +4,7 @@ import { FAB, List as ListItem } from 'react-native-paper';
 import theme from '../theme';
 
 function List({ route, navigation }) {
-	const day = route.params;
+	const day = route.params.day;
 	navigation.setOptions({
 		headerTitle: day.dateString,
 		headerStyle: {

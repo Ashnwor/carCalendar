@@ -1,12 +1,13 @@
-import React, { useEffect } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../theme';
+import { useFocusEffect } from '@react-navigation/native';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDates, storeDates } from '../thunks';
-import { storeData } from '../utils';
+import { storeData, getData } from '../utils';
 import { cleanDates } from '../actions';
 
 function HomeScreen({ navigation }) {
@@ -17,22 +18,32 @@ function HomeScreen({ navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
+	const [dates, setDates] = useState({});
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(fetchDates());
-		// dispatch(cleanDates());
-		// dispatch(storeDates({}));
-	}, []);
+	useFocusEffect(
+		useCallback(() => {
+			console.log('Homescreen');
+			let result;
+			getData('storage').then((value) => {
+				result = value;
+				setDates(result);
+				console.log('result: ', result);
+			});
+			// dispatch(fetchDates());
+			// dispatch(cleanDates());
+			// dispatch(storeDates({}));
+		}, [])
+	);
 
-	const dates = useSelector((state) => state.dates);
-	console.log(dates);
+	// const dates = useSelector((state) => state.dates);
+	// console.log(dates);
 	function OpenList(navigation, day) {
 		console.log(day);
-		navigation.navigate('List', day);
+		navigation.navigate('List', { day });
 	}
 
-	const datesKeys = Object.keys(useSelector((state) => state.dates.data));
+	const datesKeys = Object.keys(dates);
 	const markedDates = Object.fromEntries(
 		datesKeys.map((date) => [date, { selected: true }])
 	);

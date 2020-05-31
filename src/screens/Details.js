@@ -5,6 +5,7 @@ import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import theme from '../theme';
 import { storeDates, addDate } from '../thunks';
+import { storeData, getData } from '../utils';
 
 function Details({ route, navigation }) {
 	const day = route.params;
@@ -45,12 +46,15 @@ function Details({ route, navigation }) {
 		setShow(true);
 	};
 
-	const dates = useSelector((state) => state.dates);
+	let dates;
+	getData('storage').then((data) => (dates = data));
 	const save = (details) => {
 		console.log('TESTING');
-		dates.data[day.dateString] = {};
+		dates[day.dateString] = {};
 		console.log(dates);
-		dispatch(storeDates(dates.data));
+		storeData('storage', dates).then(() => {
+			getData('storage').then((data) => console.log('data:', data));
+		});
 	};
 
 	return (
