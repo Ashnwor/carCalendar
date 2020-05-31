@@ -36,21 +36,19 @@ function List({ route, navigation }) {
 		return (
 			<View style={styles.containerCenter}>
 				<Headline>Bu tarihte kayıtlı araç bulunamadı</Headline>
-				<Text>
-					Araç eklemek için <b>+</b> tuşuna basınız
-				</Text>
+				<Text>Araç eklemek için + tuşuna basınız</Text>
 			</View>
 		);
 	}
 
 	return (
 		<View style={styles.container}>
-			<ListItem.Item
+			{/* <ListItem.Item
 				title="First Item"
 				description="Item description"
 				left={(props) => <ListItem.Icon {...props} icon="car" />}
 				onPress={() => console.log('TEST')}
-			/>
+			/> */}
 			{!dates[day.dateString] ? <NoItemFound /> : null}
 			<FAB
 				style={styles.fab}
