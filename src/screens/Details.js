@@ -57,12 +57,17 @@ function Details({ route, navigation }) {
 
 	const save = (details) => {
 		console.log('TESTING');
-		if (dates[day.dateString]) {
-			dates[day.dateString][licensePlate] = {};
+		if (licensePlate && brand && model) {
+			if (dates[day.dateString]) {
+				dates[day.dateString][licensePlate] = {};
+			} else {
+				dates[day.dateString] = {};
+				dates[day.dateString][licensePlate] = {};
+			}
 		} else {
-			dates[day.dateString] = {};
-			dates[day.dateString][licensePlate] = {};
+			setVisible(true);
 		}
+
 		console.log(dates);
 		storeData('storage', dates).then(() => {
 			getData('storage').then((data) => console.log('data:', data));
@@ -92,6 +97,7 @@ function Details({ route, navigation }) {
 				left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 				onPress={() => showDatepicker()}
 			/>
+
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"
@@ -104,7 +110,7 @@ function Details({ route, navigation }) {
 					maximumDate={new Date()}
 				/>
 			)}
-			<Button onPress={() => setVisible(true)}>Show Dialog</Button>
+
 			<Portal>
 				<Dialog visible={visible} onDismiss={() => setVisible(false)}>
 					<Dialog.Title>Uyarı</Dialog.Title>
