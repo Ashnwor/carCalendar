@@ -17,14 +17,13 @@ function Details({ route, navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
-	const [date, setDate] = useState(new Date());
+	const [retrievalDate, setRetrievalDate] = useState(new Date());
 	const [show, setShow] = useState(false);
 	const [visible, setVisible] = useState(false);
 
 	const [licensePlate, setLicensePlate] = useState();
 	const [brand, setBrand] = useState();
 	const [model, setModel] = useState();
-	const [retrievalDate, setRetrievalData] = useState();
 
 	const dateToString = (date) => {
 		let day;
@@ -43,9 +42,9 @@ function Details({ route, navigation }) {
 	};
 
 	const onChange = (event, selectedDate) => {
-		const currentDate = selectedDate || date;
+		const currentDate = selectedDate || retrievalDate;
 		setShow(Platform.OS === 'ios');
-		setDate(currentDate);
+		setRetrievalDate(currentDate);
 	};
 
 	const showDatepicker = () => {
@@ -55,14 +54,22 @@ function Details({ route, navigation }) {
 	let dates;
 	getData('storage').then((data) => (dates = data));
 
-	const save = (details) => {
+	const save = () => {
 		console.log('TESTING');
 		if (licensePlate && brand && model) {
 			if (dates[day.dateString]) {
-				dates[day.dateString][licensePlate] = {};
+				dates[day.dateString][licensePlate] = {
+					brand,
+					model,
+					retrievalDate,
+				};
 			} else {
 				dates[day.dateString] = {};
-				dates[day.dateString][licensePlate] = {};
+				dates[day.dateString][licensePlate] = {
+					brand,
+					model,
+					retrievalDate,
+				};
 			}
 		} else {
 			setVisible(true);
@@ -93,7 +100,7 @@ function Details({ route, navigation }) {
 			/>
 			<ListItem.Item
 				title="Alım Tarihi"
-				description={dateToString(date).normal}
+				description={dateToString(retrievalDate).normal}
 				left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 				onPress={() => showDatepicker()}
 			/>
@@ -102,7 +109,7 @@ function Details({ route, navigation }) {
 				<DateTimePicker
 					testID="dateTimePicker"
 					timeZoneOffsetInMinutes={0}
-					value={date}
+					value={retrievalDate}
 					mode={'date'}
 					is24Hour={true}
 					display="default"
