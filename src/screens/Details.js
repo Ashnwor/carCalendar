@@ -99,21 +99,25 @@ function Details({ route, navigation }) {
 	return (
 		<View style={styles.container}>
 			<TextInput
+				style={styles.input}
 				label="Plaka"
 				onChange={(event) => setLicensePlate(event.nativeEvent.text)}
-				//				defaultValue={licensePlate}
+				// defaultValue={licensePlate}
 			/>
 			<TextInput
+				style={styles.input}
 				label="Marka"
 				onChange={(event) => setBrand(event.nativeEvent.text)}
-				//				defaultValue={brand}
+				// defaultValue={brand}
 			/>
 			<TextInput
+				style={styles.input}
 				label="Model"
 				onChange={(event) => setModel(event.nativeEvent.text)}
-				//				defaultValue={model}
+				// defaultValue={model}
 			/>
 			<ListItem.Item
+				style={styles.input}
 				title="Alım Tarihi"
 				description={dateToString(retrievalDate).normal}
 				left={(props) => <ListItem.Icon {...props} icon="calendar" />}
@@ -162,10 +166,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 	},
 
-	calendar: {
-		width: '100%',
-		height: '100%',
-	},
+	input: { margin: 5 },
 
 	saveBtn: {
 		width: '30%',
