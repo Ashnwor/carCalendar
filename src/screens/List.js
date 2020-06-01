@@ -49,7 +49,18 @@ function List({ route, navigation }) {
 				left={(props) => <ListItem.Icon {...props} icon="car" />}
 				onPress={() => console.log('TEST')}
 			/> */}
-			{!dates[day.dateString] ? <NoItemFound /> : null}
+			{!dates[day.dateString] ? (
+				<NoItemFound />
+			) : (
+				Object.keys(dates[day.dateString]).map((val) => (
+					<ListItem.Item
+						title={val}
+						description="Item description"
+						left={(props) => <ListItem.Icon {...props} icon="car" />}
+						onPress={() => console.log(val)}
+					/>
+				))
+			)}
 			<FAB
 				style={styles.fab}
 				icon="plus"
