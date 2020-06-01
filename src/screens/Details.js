@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
+import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import theme from '../theme';
 import { storeDates, addDate } from '../thunks';
@@ -9,7 +10,6 @@ import { storeData, getData } from '../utils';
 
 function Details({ route, navigation }) {
 	const day = route.params;
-	const dispatch = useDispatch();
 	navigation.setOptions({
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
@@ -19,6 +19,7 @@ function Details({ route, navigation }) {
 
 	const [date, setDate] = useState(new Date());
 	const [show, setShow] = useState(false);
+	const [visible, setVisible] = useState(false);
 
 	const [licensePlate, setLicensePlate] = useState();
 	const [brand, setBrand] = useState();
@@ -53,9 +54,15 @@ function Details({ route, navigation }) {
 
 	let dates;
 	getData('storage').then((data) => (dates = data));
+
 	const save = (details) => {
 		console.log('TESTING');
-		dates[day.dateString] = {};
+		if (dates[day.dateString]) {
+			dates[day.dateString][licensePlate] = {};
+		} else {
+			dates[day.dateString] = {};
+			dates[day.dateString][licensePlate] = {};
+		}
 		console.log(dates);
 		storeData('storage', dates).then(() => {
 			getData('storage').then((data) => console.log('data:', data));
@@ -97,7 +104,20 @@ function Details({ route, navigation }) {
 					maximumDate={new Date()}
 				/>
 			)}
-
+			<Button onPress={() => setVisible(true)}>Show Dialog</Button>
+			<Portal>
+				<Dialog visible={visible} onDismiss={() => setVisible(false)}>
+					<Dialog.Title>Uyarı</Dialog.Title>
+					<Dialog.Content>
+						{!licensePlate ? <Text>Plaka bilgisi girilmemiş</Text> : null}
+						{!brand ? <Text>Marka bilgisi girilmemiş</Text> : null}
+						{!model ? <Text>Model bilgisi girilmemiş</Text> : null}
+					</Dialog.Content>
+					<Dialog.Actions>
+						<Button onPress={() => setVisible(false)}>Done</Button>
+					</Dialog.Actions>
+				</Dialog>
+			</Portal>
 			<FAB
 				style={styles.fab}
 				icon="content-save"
