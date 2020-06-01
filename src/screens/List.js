@@ -1,7 +1,14 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
-import { FAB, List as ListItem, Headline, Text } from 'react-native-paper';
+import {
+	FAB,
+	List as ListItem,
+	Headline,
+	Text,
+	IconButton,
+	Colors,
+} from 'react-native-paper';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 
@@ -52,15 +59,28 @@ function List({ route, navigation }) {
 			{!dates[day.dateString] ? (
 				<NoItemFound />
 			) : (
-				Object.keys(dates[day.dateString]).map((val) => (
-					<ListItem.Item
-						key={val}
-						title={val}
-						description="Item description"
-						left={(props) => <ListItem.Icon {...props} icon="car" />}
-						onPress={() => console.log(val)}
-					/>
-				))
+				Object.keys(dates[day.dateString]).map((val) => {
+					const desc = `${dates[day.dateString][val].brand} - ${
+						dates[day.dateString][val].model
+					}`;
+					return (
+						<ListItem.Item
+							key={val}
+							title={val}
+							description={desc}
+							left={(props) => <ListItem.Icon {...props} icon="car" />}
+							right={() => (
+								<IconButton
+									icon="delete"
+									color={Colors.red600}
+									size={20}
+									onPress={() => console.log('Pressed')}
+								/>
+							)}
+							onPress={() => console.log(val)}
+						/>
+					);
+				})
 			)}
 			<FAB
 				style={styles.fab}
