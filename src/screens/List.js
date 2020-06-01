@@ -1,5 +1,4 @@
 import React, { useState, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
 import { FAB, List as ListItem, Headline, Text } from 'react-native-paper';
 import theme from '../theme';
@@ -54,6 +53,7 @@ function List({ route, navigation }) {
 			) : (
 				Object.keys(dates[day.dateString]).map((val) => (
 					<ListItem.Item
+						key={val}
 						title={val}
 						description="Item description"
 						left={(props) => <ListItem.Icon {...props} icon="car" />}
