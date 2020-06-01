@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
 import {
@@ -39,6 +39,10 @@ function List({ route, navigation }) {
 		}, [])
 	);
 
+	useEffect(() => {
+		console.log('UPDATED');
+	}, [dates]);
+
 	function NoItemFound() {
 		return (
 			<View style={styles.containerCenter}>
@@ -74,7 +78,12 @@ function List({ route, navigation }) {
 									icon="delete"
 									color={Colors.red600}
 									size={20}
-									onPress={() => console.log('Pressed')}
+									onPress={() =>
+										delete dates[day.dateString][val] &&
+										storeData('storage', dates).then(() => {
+											getData('storage').then((data) => setDates(data));
+										})
+									}
 								/>
 							)}
 							onPress={() => console.log(val)}
