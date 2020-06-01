@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
@@ -51,8 +52,22 @@ function Details({ route, navigation }) {
 		setShow(true);
 	};
 
-	let dates;
-	getData('storage').then((data) => (dates = data));
+	const [dates, setDates] = useState({});
+
+	useFocusEffect(
+		useCallback(() => {
+			console.log('Details');
+			let result;
+			getData('storage').then((value) => {
+				result = value;
+				setDates(result);
+				console.log('result: ', result);
+			});
+			// dispatch(fetchDates());
+			// dispatch(cleanDates());
+			// dispatch(storeDates({}));
+		}, [])
+	);
 
 	const save = () => {
 		console.log('TESTING');
