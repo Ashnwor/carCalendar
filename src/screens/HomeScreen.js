@@ -23,13 +23,23 @@ function HomeScreen({ navigation }) {
 
 	useFocusEffect(
 		useCallback(() => {
-			console.log('Homescreen');
-			let result;
-			getData('storage').then((value) => {
-				result = value;
+			async function fetchData() {
+				const result = await getData('storage');
+				const resultKeys = Object.keys(result);
+				const emptyKeys = resultKeys.filter(
+					(value) => Object.keys(result[value]).length === 0
+				);
+				if (emptyKeys.length > 0) {
+					emptyKeys.forEach((value) => delete result[value]);
+					await storeData('storage', result);
+				}
+
+				console.log('empty:', emptyKeys);
 				setDates(result);
 				console.log('result: ', result);
-			});
+			}
+			console.log('Homescreen');
+			fetchData();
 			// dispatch(fetchDates());
 			// dispatch(cleanDates());
 			// dispatch(storeDates({}));

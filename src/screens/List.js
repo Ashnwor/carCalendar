@@ -60,7 +60,8 @@ function List({ route, navigation }) {
 				left={(props) => <ListItem.Icon {...props} icon="car" />}
 				onPress={() => console.log('TEST')}
 			/> */}
-			{!dates[day.dateString] ? (
+			{!dates[day.dateString] ||
+			Object.keys(dates[day.dateString]).length === 0 ? (
 				<NoItemFound />
 			) : (
 				Object.keys(dates[day.dateString]).map((val) => {
