@@ -22,9 +22,9 @@ function Details({ route, navigation }) {
 	const [show, setShow] = useState(false);
 	const [visible, setVisible] = useState(false);
 
-	const [licensePlate, setLicensePlate] = useState();
-	const [brand, setBrand] = useState();
-	const [model, setModel] = useState();
+	const [licensePlate, setLicensePlate] = useState('');
+	const [brand, setBrand] = useState('');
+	const [model, setModel] = useState('');
 
 	const dateToString = (date) => {
 		let day;
@@ -39,6 +39,7 @@ function Details({ route, navigation }) {
 		return {
 			normal: `${day}-${month}-${year}`,
 			reverse: `${year}-${month}-${day}`,
+			unprocessed: date,
 		};
 	};
 
@@ -71,19 +72,20 @@ function Details({ route, navigation }) {
 
 	const save = () => {
 		console.log('TESTING');
+		const combinedRetrievalDate = dateToString(retrievalDate);
 		if (licensePlate && brand && model) {
 			if (dates[day.dateString]) {
 				dates[day.dateString][licensePlate] = {
 					brand,
 					model,
-					retrievalDate,
+					combinedRetrievalDate,
 				};
 			} else {
 				dates[day.dateString] = {};
 				dates[day.dateString][licensePlate] = {
 					brand,
 					model,
-					retrievalDate,
+					combinedRetrievalDate,
 				};
 			}
 		} else {
@@ -101,19 +103,22 @@ function Details({ route, navigation }) {
 			<TextInput
 				style={styles.input}
 				label="Plaka"
-				onChange={(event) => setLicensePlate(event.nativeEvent.text)}
+				value={licensePlate}
+				onChangeText={(text) => setLicensePlate(text)}
 				// defaultValue={licensePlate}
 			/>
 			<TextInput
 				style={styles.input}
 				label="Marka"
-				onChange={(event) => setBrand(event.nativeEvent.text)}
+				value={brand}
+				onChangeText={(text) => setBrand(text)}
 				// defaultValue={brand}
 			/>
 			<TextInput
 				style={styles.input}
 				label="Model"
-				onChange={(event) => setModel(event.nativeEvent.text)}
+				value={model}
+				onChangeText={(text) => setModel(text)}
 				// defaultValue={model}
 			/>
 			<ListItem.Item
