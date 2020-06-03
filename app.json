@@ -1,7 +1,7 @@
 {
 	"expo": {
-		"name": "calendar",
-		"slug": "calendar",
+		"name": "Car Calendar",
+		"slug": "carcalendar",
 		"platforms": ["android"],
 		"version": "1.0.0",
 		"orientation": "portrait",
@@ -15,11 +15,8 @@
 			"fallbackToCacheTimeout": 0
 		},
 		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true
-		},
 		"android": {
-			"package": "com.ashnwor.calendar",
+			"package": "com.ashnwor.carcalendar",
 			"versionCode": 1
 		}
 	}
