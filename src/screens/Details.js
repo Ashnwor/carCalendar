@@ -122,7 +122,7 @@ function Details({ route, navigation }) {
 				style={styles.input}
 				label="Plaka"
 				value={licensePlate}
-				onChangeText={(text) => setLicensePlate(text)}
+				onChangeText={(text) => setLicensePlate(text.toUpperCase())}
 			/>
 			<TextInput
 				style={styles.input}
