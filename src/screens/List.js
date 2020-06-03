@@ -33,9 +33,6 @@ function List({ route, navigation }) {
 				setDates(result);
 				console.log('result: ', result);
 			});
-			// dispatch(fetchDates());
-			// dispatch(cleanDates());
-			// dispatch(storeDates({}));
 		}, [])
 	);
 
@@ -54,12 +51,6 @@ function List({ route, navigation }) {
 
 	return (
 		<View style={styles.container}>
-			{/* <ListItem.Item
-				title="First Item"
-				description="Item description"
-				left={(props) => <ListItem.Icon {...props} icon="car" />}
-				onPress={() => console.log('TEST')}
-			/> */}
 			{!dates[day.dateString] ||
 			Object.keys(dates[day.dateString]).length === 0 ? (
 				<NoItemFound />

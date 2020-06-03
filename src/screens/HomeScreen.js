@@ -1,16 +1,12 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../theme';
 import { useFocusEffect } from '@react-navigation/native';
-import { Notifications } from 'expo';
-
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchDates, storeDates } from '../thunks';
+// import { Notifications } from 'expo';
 import { storeData, getData } from '../utils';
-import { cleanDates } from '../actions';
 
 // const localNotification = {
 // 	title: 'TEST',
@@ -41,7 +37,6 @@ function HomeScreen({ navigation }) {
 	});
 
 	const [dates, setDates] = useState({});
-	const dispatch = useDispatch();
 
 	useFocusEffect(
 		useCallback(() => {
@@ -62,14 +57,9 @@ function HomeScreen({ navigation }) {
 			}
 			console.log('Homescreen');
 			fetchData();
-			// dispatch(fetchDates());
-			// dispatch(cleanDates());
-			// dispatch(storeDates({}));
 		}, [])
 	);
 
-	// const dates = useSelector((state) => state.dates);
-	// console.log(dates);
 	function OpenList(navigation, day) {
 		console.log(day);
 		navigation.navigate('List', { day });
@@ -80,7 +70,6 @@ function HomeScreen({ navigation }) {
 		datesKeys.map((date) => [date, { selected: true }])
 	);
 
-	// console.log(markedDates);
 	return (
 		<View style={styles.container}>
 			<Calendar

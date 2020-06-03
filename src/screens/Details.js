@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
-import { Button, Paragraph, Dialog, Portal } from 'react-native-paper';
+import { Button, Dialog, Portal } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import theme from '../theme';
-import { storeDates, addDate } from '../thunks';
 import { storeData, getData } from '../utils';
 
 function Details({ route, navigation }) {
@@ -64,9 +62,6 @@ function Details({ route, navigation }) {
 				setDates(result);
 				console.log('result: ', result);
 			});
-			// dispatch(fetchDates());
-			// dispatch(cleanDates());
-			// dispatch(storeDates({}));
 		}, [])
 	);
 
@@ -105,21 +100,18 @@ function Details({ route, navigation }) {
 				label="Plaka"
 				value={licensePlate}
 				onChangeText={(text) => setLicensePlate(text)}
-				// defaultValue={licensePlate}
 			/>
 			<TextInput
 				style={styles.input}
 				label="Marka"
 				value={brand}
 				onChangeText={(text) => setBrand(text)}
-				// defaultValue={brand}
 			/>
 			<TextInput
 				style={styles.input}
 				label="Model"
 				value={model}
 				onChangeText={(text) => setModel(text)}
-				// defaultValue={model}
 			/>
 			<ListItem.Item
 				style={styles.input}
