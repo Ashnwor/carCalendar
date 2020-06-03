@@ -8,6 +8,7 @@ import { Notifications } from 'expo';
 import moment from 'moment';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
+import { TextInputMask } from 'react-native-masked-text';
 
 function Details({ route, navigation }) {
 	const day = route.params;
@@ -123,7 +124,9 @@ function Details({ route, navigation }) {
 				style={styles.input}
 				label="Plaka"
 				value={licensePlate}
-				onChangeText={(text) => setLicensePlate(text.toUpperCase())}
+				onChangeText={(text) =>
+					setLicensePlate(text.toUpperCase().replace(' ', '-'))
+				}
 			/>
 			<TextInput
 				style={styles.input}
@@ -144,7 +147,6 @@ function Details({ route, navigation }) {
 				left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 				onPress={() => showDatepicker()}
 			/>
-
 			{show && (
 				<DateTimePicker
 					testID="dateTimePicker"
@@ -157,7 +159,6 @@ function Details({ route, navigation }) {
 					maximumDate={new Date()}
 				/>
 			)}
-
 			<Portal>
 				<Dialog visible={visible} onDismiss={() => setVisible(false)}>
 					<Dialog.Title>Uyarı</Dialog.Title>
