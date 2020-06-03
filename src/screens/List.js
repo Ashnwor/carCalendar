@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import {
 	FAB,
 	List as ListItem,
@@ -64,34 +64,37 @@ function List({ route, navigation }) {
 			Object.keys(dates[day.dateString]).length === 0 ? (
 				<NoItemFound />
 			) : (
-				Object.keys(dates[day.dateString]).map((val) => {
-					const desc = `${dates[day.dateString][val].brand} - ${
-						dates[day.dateString][val].model
-					}`;
-					return (
-						<ListItem.Item
-							key={val}
-							title={val}
-							description={desc}
-							left={(props) => <ListItem.Icon {...props} icon="car" />}
-							right={() => (
-								<IconButton
-									icon="delete"
-									color={Colors.red600}
-									size={20}
-									onPress={() =>
-										delete dates[day.dateString][val] &&
-										storeData('storage', dates).then(() => {
-											getData('storage').then((data) => setDates(data));
-										})
-									}
-								/>
-							)}
-							onPress={() => console.log(val)}
-						/>
-					);
-				})
+				<ScrollView>
+					{Object.keys(dates[day.dateString]).map((val) => {
+						const desc = `${dates[day.dateString][val].brand} - ${
+							dates[day.dateString][val].model
+						}`;
+						return (
+							<ListItem.Item
+								key={val}
+								title={val}
+								description={desc}
+								left={(props) => <ListItem.Icon {...props} icon="car" />}
+								right={() => (
+									<IconButton
+										icon="delete"
+										color={Colors.red600}
+										size={20}
+										onPress={() =>
+											delete dates[day.dateString][val] &&
+											storeData('storage', dates).then(() => {
+												getData('storage').then((data) => setDates(data));
+											})
+										}
+									/>
+								)}
+								onPress={() => console.log(val)}
+							/>
+						);
+					})}
+				</ScrollView>
 			)}
+
 			<FAB
 				style={styles.fab}
 				icon="plus"
