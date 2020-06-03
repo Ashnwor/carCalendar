@@ -1,9 +1,11 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Platform } from 'react-native';
 import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
 import { Button, Dialog, Portal } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { Notifications } from 'expo';
+import moment from 'moment';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 
@@ -84,8 +86,25 @@ function Details({ route, navigation }) {
 				};
 			}
 			console.log(dates);
-			storeData('storage', dates).then(() => {
-				getData('storage').then((data) => console.log('data:', data));
+			storeData('storage', dates).then(async () => {
+				// const localNotification = {
+				// 	title: 'TEST',
+				// 	body: 'test',
+				// 	priority: 'max',
+				// 	vibrate: [0, 250, 250, 250],
+				// 	color: 'red',
+				// 	data: { test: 'Test' },
+				// };
+
+				// const schedulingOptions = {
+				// 	time: moment().hour(23).minute(0).second(0).valueOf(),
+				// };
+
+				// if (Platform.OS !== 'web')
+				// 	await Notifications.scheduleLocalNotificationAsync(
+				// 		localNotification,
+				// 		schedulingOptions
+				// 	);
 				navigation.goBack();
 			});
 		} else {

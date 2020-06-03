@@ -12,11 +12,14 @@ import {
 } from 'react-native-paper';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
+import moment from 'moment';
+import 'moment/locale/tr';
+moment.locale('tr');
 
 function List({ route, navigation }) {
 	const day = route.params.day;
 	navigation.setOptions({
-		headerTitle: day.dateString,
+		headerTitle: moment(day.dateString, 'YYYY-MM-DD').format('D MMMM YYYY'),
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
 		},
@@ -51,7 +54,6 @@ function List({ route, navigation }) {
 			</View>
 		);
 	}
-
 	return (
 		<>
 			{!isLoading ? (
@@ -64,7 +66,9 @@ function List({ route, navigation }) {
 							{Object.keys(dates[day.dateString]).map((val) => {
 								const desc = `${dates[day.dateString][val].brand} - ${
 									dates[day.dateString][val].model
-								}`;
+								}\nAlınan Tarih: ${moment(
+									dates[day.dateString][val].combinedRetrievalDate.unprocessed
+								).format('D MMMM YYYY')}`;
 								return (
 									<ListItem.Item
 										key={val}

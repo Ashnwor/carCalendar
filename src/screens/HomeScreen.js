@@ -1,33 +1,17 @@
 import React, { useState, useCallback } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
 import { Calendar } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../theme';
 import { useFocusEffect } from '@react-navigation/native';
-// import { Notifications } from 'expo';
 import { storeData, getData } from '../utils';
 
-// const localNotification = {
-// 	title: 'TEST',
-// 	body: 'test',
-// 	priority: 'max',
-// 	vibrate: [0, 250, 250, 250],
-// 	color: 'red',
-// 	data: { test: 'Test' },
+// const registerNotifications = async () => {
+// 	await Notifications.dismissAllNotificationsAsync();
 // };
 
-// const schedulingOptions = {
-// 	repeat: 'minute',
-// };
-
-// Notifications.cancelAllScheduledNotificationsAsync();
-// Notifications.dismissAllNotificationsAsync();
-// Notifications.scheduleLocalNotificationAsync(
-// 	localNotification,
-// 	schedulingOptions
-// );
-
+// if (Platform.OS !== 'web') registerNotifications();
 function HomeScreen({ navigation }) {
 	navigation.setOptions({
 		headerStyle: {
