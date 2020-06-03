@@ -1,12 +1,55 @@
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet, Text, Platform } from 'react-native';
 import { Button } from 'react-native-paper';
-import { Calendar } from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../theme';
 import { useFocusEffect } from '@react-navigation/native';
 import { storeData, getData } from '../utils';
 
+LocaleConfig.locales['tr'] = {
+	monthNames: [
+		'Ocak',
+		'Şubat',
+		'Mart',
+		'Nisan',
+		'Mayıs',
+		'Haziran',
+		'Temmuz',
+		'Ağustos',
+		'Eylül',
+		'Ekim',
+		'Kasım',
+		'Aralık',
+	],
+	monthNamesShort: [
+		'Ocak',
+		'Şub',
+		'Mart',
+		'Nis',
+		'May',
+		'Haz',
+		'Tem',
+		'Ağu',
+		'Eyl',
+		'Ekim',
+		'Kas',
+		'Ara',
+	],
+	dayNames: [
+		'Pazar',
+		'Pazartesi',
+		'Salı',
+		'Çarşamba',
+		'Perşembe',
+		'Cuma',
+		'Cumartesi',
+	],
+	dayNamesShort: ['Paz', 'Pzt', 'Sal', 'Çarş', 'Perş', 'Cum', 'Cmt'],
+	today: 'Bugün',
+};
+
+LocaleConfig.defaultLocale = 'tr';
 // const registerNotifications = async () => {
 // 	await Notifications.dismissAllNotificationsAsync();
 // };
@@ -14,6 +57,7 @@ import { storeData, getData } from '../utils';
 // if (Platform.OS !== 'web') registerNotifications();
 function HomeScreen({ navigation }) {
 	navigation.setOptions({
+		headerTitle: 'Takvim',
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
 		},
