@@ -88,14 +88,13 @@ function Details({ route, navigation }) {
 					combinedRetrievalDate,
 				};
 			}
+			console.log(dates);
+			storeData('storage', dates).then(() => {
+				getData('storage').then((data) => console.log('data:', data));
+			});
 		} else {
 			setVisible(true);
 		}
-
-		console.log(dates);
-		storeData('storage', dates).then(() => {
-			getData('storage').then((data) => console.log('data:', data));
-		});
 	};
 
 	return (
