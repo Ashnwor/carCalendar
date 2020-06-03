@@ -18,6 +18,8 @@
 		"android": {
 			"package": "com.ashnwor.carcalendar",
 			"versionCode": 1
-		}
+		},
+		"description": "",
+		"githubUrl": "https://github.com/Ashnwor/carCalendar"
 	}
 }
