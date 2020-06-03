@@ -9,6 +9,7 @@ import moment from 'moment';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 import { TextInputMask } from 'react-native-masked-text';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 function Details({ route, navigation }) {
 	const day = route.params;
@@ -27,6 +28,9 @@ function Details({ route, navigation }) {
 	const [licensePlate, setLicensePlate] = useState('');
 	const [brand, setBrand] = useState('');
 	const [model, setModel] = useState('');
+	const [clientNameSurname, setClientNameSurname] = useState('');
+	const [clientPhone, setClientPhone] = useState('');
+	const [referance, setReferance] = useState('');
 
 	const dateToString = (date) => {
 		let day;
@@ -120,58 +124,78 @@ function Details({ route, navigation }) {
 
 	return (
 		<View style={styles.container}>
-			<TextInput
-				style={styles.input}
-				label="Plaka"
-				value={licensePlate}
-				onChangeText={(text) =>
-					setLicensePlate(text.toUpperCase().replace(' ', '-'))
-				}
-			/>
-			<TextInput
-				style={styles.input}
-				label="Marka"
-				value={brand}
-				onChangeText={(text) => setBrand(text)}
-			/>
-			<TextInput
-				style={styles.input}
-				label="Model"
-				value={model}
-				onChangeText={(text) => setModel(text)}
-			/>
-			<ListItem.Item
-				style={styles.input}
-				title="Verilen tarih"
-				description={dateToString(retrievalDate).normal}
-				left={(props) => <ListItem.Icon {...props} icon="calendar" />}
-				onPress={() => showDatepicker()}
-			/>
-			{show && (
-				<DateTimePicker
-					testID="dateTimePicker"
-					timeZoneOffsetInMinutes={0}
-					value={retrievalDate}
-					mode={'date'}
-					is24Hour={true}
-					display="default"
-					onChange={onChange}
-					maximumDate={new Date()}
+			<KeyboardAwareScrollView style={styles.container}>
+				<TextInput
+					style={styles.input}
+					label="Plaka"
+					value={licensePlate}
+					onChangeText={(text) =>
+						setLicensePlate(text.toUpperCase().replace(' ', '-'))
+					}
 				/>
-			)}
-			<Portal>
-				<Dialog visible={visible} onDismiss={() => setVisible(false)}>
-					<Dialog.Title>Uyarı</Dialog.Title>
-					<Dialog.Content>
-						{!licensePlate ? <Text>Plaka bilgisi girilmemiş</Text> : null}
-						{!brand ? <Text>Marka bilgisi girilmemiş</Text> : null}
-						{!model ? <Text>Model bilgisi girilmemiş</Text> : null}
-					</Dialog.Content>
-					<Dialog.Actions>
-						<Button onPress={() => setVisible(false)}>Done</Button>
-					</Dialog.Actions>
-				</Dialog>
-			</Portal>
+				<TextInput
+					style={styles.input}
+					label="Marka"
+					value={brand}
+					onChangeText={(text) => setBrand(text)}
+				/>
+				<TextInput
+					style={styles.input}
+					label="Model"
+					value={model}
+					onChangeText={(text) => setModel(text)}
+				/>
+				<TextInput
+					style={styles.input}
+					label="Müşteri Ad Soyad"
+					value={clientNameSurname}
+					onChangeText={(text) => setClientNameSurname(text)}
+				/>
+				<TextInput
+					style={styles.input}
+					label="Telefon"
+					value={clientPhone}
+					onChangeText={(text) => setClientPhone(text)}
+				/>
+				<TextInput
+					style={styles.input}
+					label="Referans"
+					value={referance}
+					onChangeText={(text) => setReferance(text)}
+				/>
+				<ListItem.Item
+					style={styles.input}
+					title="Verilen tarih"
+					description={dateToString(retrievalDate).normal}
+					left={(props) => <ListItem.Icon {...props} icon="calendar" />}
+					onPress={() => showDatepicker()}
+				/>
+				{show && (
+					<DateTimePicker
+						testID="dateTimePicker"
+						timeZoneOffsetInMinutes={0}
+						value={retrievalDate}
+						mode={'date'}
+						is24Hour={true}
+						display="default"
+						onChange={onChange}
+						maximumDate={new Date()}
+					/>
+				)}
+				<Portal>
+					<Dialog visible={visible} onDismiss={() => setVisible(false)}>
+						<Dialog.Title>Uyarı</Dialog.Title>
+						<Dialog.Content>
+							{!licensePlate ? <Text>Plaka bilgisi girilmemiş</Text> : null}
+							{!brand ? <Text>Marka bilgisi girilmemiş</Text> : null}
+							{!model ? <Text>Model bilgisi girilmemiş</Text> : null}
+						</Dialog.Content>
+						<Dialog.Actions>
+							<Button onPress={() => setVisible(false)}>Done</Button>
+						</Dialog.Actions>
+					</Dialog>
+				</Portal>
+			</KeyboardAwareScrollView>
 			<FAB
 				style={styles.fab}
 				icon="content-save"
@@ -189,12 +213,6 @@ const styles = StyleSheet.create({
 	},
 
 	input: { margin: 5 },
-
-	saveBtn: {
-		width: '30%',
-		alignSelf: 'center',
-		marginTop: 50,
-	},
 
 	fab: {
 		position: 'absolute',
