@@ -12,6 +12,7 @@ import { storeData, getData } from '../utils';
 function Details({ route, navigation }) {
 	const day = route.params;
 	navigation.setOptions({
+		headerTitle: 'Detaylar',
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
 		},
@@ -138,7 +139,7 @@ function Details({ route, navigation }) {
 			/>
 			<ListItem.Item
 				style={styles.input}
-				title="Alım Tarihi"
+				title="Verilen tarih"
 				description={dateToString(retrievalDate).normal}
 				left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 				onPress={() => showDatepicker()}
