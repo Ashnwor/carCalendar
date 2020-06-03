@@ -87,24 +87,28 @@ function Details({ route, navigation }) {
 			}
 			console.log(dates);
 			storeData('storage', dates).then(async () => {
-				// const localNotification = {
-				// 	title: 'TEST',
-				// 	body: 'test',
-				// 	priority: 'max',
-				// 	vibrate: [0, 250, 250, 250],
-				// 	color: 'red',
-				// 	data: { test: 'Test' },
-				// };
+				const localNotification = {
+					title: 'Yarın teslim edilecek araç:',
+					body: `${licensePlate} ${brand} ${model}`,
+					priority: 'max',
+					vibrate: true,
+					color: 'red',
+				};
 
-				// const schedulingOptions = {
-				// 	time: moment().hour(23).minute(0).second(0).valueOf(),
-				// };
+				const schedulingOptions = {
+					time: moment(day.dateString, 'YYYY-MM-DD')
+						.subtract(1, 'day')
+						.hour(21)
+						.minute(0)
+						.second(0)
+						.valueOf(),
+				};
 
-				// if (Platform.OS !== 'web')
-				// 	await Notifications.scheduleLocalNotificationAsync(
-				// 		localNotification,
-				// 		schedulingOptions
-				// 	);
+				if (Platform.OS !== 'web')
+					await Notifications.scheduleLocalNotificationAsync(
+						localNotification,
+						schedulingOptions
+					);
 				navigation.goBack();
 			});
 		} else {
