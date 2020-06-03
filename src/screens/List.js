@@ -7,6 +7,7 @@ import {
 	Headline,
 	Text,
 	IconButton,
+	ActivityIndicator,
 	Colors,
 } from 'react-native-paper';
 import theme from '../theme';
@@ -23,6 +24,7 @@ function List({ route, navigation }) {
 	});
 
 	const [dates, setDates] = useState({});
+	const [isLoading, setLoading] = useState(true);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -32,6 +34,7 @@ function List({ route, navigation }) {
 				result = value;
 				setDates(result);
 				console.log('result: ', result);
+				setLoading(false);
 			});
 		}, [])
 	);
@@ -50,48 +53,55 @@ function List({ route, navigation }) {
 	}
 
 	return (
-		<View style={styles.container}>
-			{!dates[day.dateString] ||
-			Object.keys(dates[day.dateString]).length === 0 ? (
-				<NoItemFound />
-			) : (
-				<ScrollView>
-					{Object.keys(dates[day.dateString]).map((val) => {
-						const desc = `${dates[day.dateString][val].brand} - ${
-							dates[day.dateString][val].model
-						}`;
-						return (
-							<ListItem.Item
-								key={val}
-								title={val}
-								description={desc}
-								left={(props) => <ListItem.Icon {...props} icon="car" />}
-								right={() => (
-									<IconButton
-										icon="delete"
-										color={Colors.red600}
-										size={20}
-										onPress={() =>
-											delete dates[day.dateString][val] &&
-											storeData('storage', dates).then(() => {
-												getData('storage').then((data) => setDates(data));
-											})
-										}
+		<>
+			{!isLoading ? (
+				<View style={styles.container}>
+					{!dates[day.dateString] ||
+					Object.keys(dates[day.dateString]).length === 0 ? (
+						<NoItemFound />
+					) : (
+						<ScrollView>
+							{Object.keys(dates[day.dateString]).map((val) => {
+								const desc = `${dates[day.dateString][val].brand} - ${
+									dates[day.dateString][val].model
+								}`;
+								return (
+									<ListItem.Item
+										key={val}
+										title={val}
+										description={desc}
+										left={(props) => <ListItem.Icon {...props} icon="car" />}
+										right={() => (
+											<IconButton
+												icon="delete"
+												color={Colors.red600}
+												size={20}
+												onPress={() =>
+													delete dates[day.dateString][val] &&
+													storeData('storage', dates).then(() => {
+														getData('storage').then((data) => setDates(data));
+													})
+												}
+											/>
+										)}
+										onPress={() => console.log(val)}
 									/>
-								)}
-								onPress={() => console.log(val)}
-							/>
-						);
-					})}
-				</ScrollView>
+								);
+							})}
+						</ScrollView>
+					)}
+					<FAB
+						style={styles.fab}
+						icon="plus"
+						onPress={() => navigation.navigate('Details', day)}
+					/>
+				</View>
+			) : (
+				<View style={styles.containerCenter}>
+					<ActivityIndicator size="large" />
+				</View>
 			)}
-
-			<FAB
-				style={styles.fab}
-				icon="plus"
-				onPress={() => navigation.navigate('Details', day)}
-			/>
-		</View>
+		</>
 	);
 }
 
