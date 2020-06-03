@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, StyleSheet, Text, Platform } from 'react-native';
-import { Button } from 'react-native-paper';
+import { View, StyleSheet } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import theme from '../theme';
@@ -50,11 +49,6 @@ LocaleConfig.locales['tr'] = {
 };
 
 LocaleConfig.defaultLocale = 'tr';
-// const registerNotifications = async () => {
-// 	await Notifications.dismissAllNotificationsAsync();
-// };
-
-// if (Platform.OS !== 'web') registerNotifications();
 function HomeScreen({ navigation }) {
 	navigation.setOptions({
 		headerTitle: 'Takvim',
@@ -112,14 +106,6 @@ function HomeScreen({ navigation }) {
 				)}
 				markedDates={markedDates}
 			/>
-			{/* <Button
-				mode="contained"
-				onPress={() =>
-					Notifications.presentLocalNotificationAsync(localNotification)
-				}
-			>
-				Notification Test
-			</Button> */}
 		</View>
 	);
 }
