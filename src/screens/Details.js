@@ -91,6 +91,7 @@ function Details({ route, navigation }) {
 			console.log(dates);
 			storeData('storage', dates).then(() => {
 				getData('storage').then((data) => console.log('data:', data));
+				navigation.goBack();
 			});
 		} else {
 			setVisible(true);
