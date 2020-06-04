@@ -56,6 +56,7 @@ function List({ route, navigation }) {
 			</View>
 		);
 	}
+
 	return (
 		<>
 			{!isLoading ? (
@@ -66,11 +67,15 @@ function List({ route, navigation }) {
 					) : (
 						<ScrollView>
 							{Object.keys(dates[day.dateString]).map((val) => {
-								const desc = `${dates[day.dateString][val].brand} - ${
-									dates[day.dateString][val].model
-								}\nAlınan Tarih: ${moment(
-									dates[day.dateString][val].retrievalDate
-								).format('D MMMM YYYY')}`;
+								const licensePlate = dates[day.dateString][val];
+								const {
+									brand,
+									model,
+									clientNameSurname,
+									clientPhone,
+									referance,
+									retrievalDate,
+								} = licensePlate;
 								return (
 									<ListItem.Accordion
 										title={val}
@@ -78,53 +83,74 @@ function List({ route, navigation }) {
 										left={(props) => <ListItem.Icon {...props} icon="car" />}
 									>
 										<ListItem.Item
-											title={`Marka: ${dates[day.dateString][val].brand}`}
+											title={`Marka: ${brand}`}
 											left={(props) => (
 												<ListItem.Icon {...props} icon="tag-multiple" />
 											)}
 										/>
 										<ListItem.Item
-											title={`Model: ${dates[day.dateString][val].model}`}
+											title={`Model: ${model}`}
 											left={(props) => <ListItem.Icon {...props} icon="tag" />}
 										/>
 										<ListItem.Item
-											title={`Müşteri: ${
-												dates[day.dateString][val].clientNameSurname
-											}`}
+											title={`Müşteri: ${clientNameSurname}`}
 											left={(props) => (
 												<ListItem.Icon {...props} icon="account" />
 											)}
 										/>
 										<ListItem.Item
-											title={`Telefon: ${
-												dates[day.dateString][val].clientPhone
-											}`}
+											title={`Telefon: ${clientPhone}`}
 											left={(props) => (
 												<ListItem.Icon {...props} icon="phone" />
 											)}
+											right={(props) => (
+												<ListItem.Icon {...props} icon="call-made" />
+											)}
 											onPress={() =>
 												call({
-													number: dates[day.dateString][
-														val
-													].clientPhone.replace(' ', ''),
+													number: clientPhone.replace(' ', ''),
 													prompt: false,
 												}).catch(console.error)
 											}
 										/>
-										{dates[day.dateString][val].referance ? (
+										{referance ? (
 											<ListItem.Item
-												title={`Referans: ${
-													dates[day.dateString][val].referance
-												}`}
+												title={`Referans: ${referance}`}
 												left={(props) => (
 													<ListItem.Icon {...props} icon="account-multiple" />
 												)}
 											/>
 										) : null}
 										<ListItem.Item
-											right={(props) => (
+											title={`Verilen tarih: ${`${moment(retrievalDate).format(
+												'D MMMM YYYY'
+											)}`}`}
+											left={(props) => (
+												<ListItem.Icon {...props} icon="calendar" />
+											)}
+										/>
+										<ListItem.Item
+											right={() => (
 												<>
-													<ListItem.Icon {...props} icon="pencil" />
+													<IconButton
+														icon="pencil"
+														size={20}
+														onPress={() =>
+															navigation.navigate('Details', {
+																day,
+																edit: true,
+																editThis: {
+																	licensePlate: val,
+																	brand,
+																	model,
+																	clientNameSurname,
+																	clientPhone,
+																	referance,
+																	retrievalDate,
+																},
+															})
+														}
+													/>
 													<IconButton
 														icon="delete"
 														color={Colors.red600}
@@ -149,7 +175,7 @@ function List({ route, navigation }) {
 					<FAB
 						style={styles.fab}
 						icon="plus"
-						onPress={() => navigation.navigate('Details', day)}
+						onPress={() => navigation.navigate('Details', { day, edit: false })}
 					/>
 				</View>
 			) : (

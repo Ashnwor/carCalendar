@@ -12,25 +12,36 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { TextInputMask } from 'react-native-masked-text';
 
 function Details({ route, navigation }) {
-	const day = route.params;
+	const { day, edit, editThis } = route.params;
+	console.log('edit this:', editThis);
 	navigation.setOptions({
-		headerTitle: 'Detaylar',
+		headerTitle: edit ? 'Düzenle' : 'Araç Ekle',
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
 		},
 		headerTintColor: theme.colors.headerText,
 	});
 
-	const [retrievalDate, setRetrievalDate] = useState(new Date());
+	const [retrievalDate, setRetrievalDate] = !edit
+		? useState(new Date())
+		: useState(editThis.retrievalDate);
 	const [show, setShow] = useState(false);
 	const [visible, setVisible] = useState(false);
 
-	const [licensePlate, setLicensePlate] = useState('');
-	const [brand, setBrand] = useState('');
-	const [model, setModel] = useState('');
-	const [clientNameSurname, setClientNameSurname] = useState('');
-	const [clientPhone, setClientPhone] = useState('');
-	const [referance, setReferance] = useState('');
+	const [licensePlate, setLicensePlate] = !edit
+		? useState('')
+		: useState(editThis.licensePlate);
+	const [brand, setBrand] = !edit ? useState('') : useState(editThis.brand);
+	const [model, setModel] = !edit ? useState('') : useState(editThis.model);
+	const [clientNameSurname, setClientNameSurname] = !edit
+		? useState('')
+		: useState(editThis.clientNameSurname);
+	const [clientPhone, setClientPhone] = !edit
+		? useState('')
+		: useState(editThis.clientPhone);
+	const [referance, setReferance] = !edit
+		? useState('')
+		: useState(editThis.referance);
 
 	const onChange = (event, selectedDate) => {
 		const currentDate = selectedDate || retrievalDate;
@@ -58,6 +69,7 @@ function Details({ route, navigation }) {
 
 	const save = () => {
 		console.log('TESTING');
+		if (edit) delete dates[day.dateString][editThis.licensePlate];
 		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
 			if (dates[day.dateString]) {
 				dates[day.dateString][licensePlate] = {
