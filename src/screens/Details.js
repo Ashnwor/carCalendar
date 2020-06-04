@@ -100,7 +100,7 @@ function Details({ route, navigation }) {
 
 			if (Platform.OS !== 'web') {
 				const localNotification = {
-					title: 'Yarın teslim edilecek araç:',
+					title: 'Yarın teslim alınacak araç:',
 					body: `${licensePlate} ${brand} ${model}`,
 					priority: 'max',
 					vibrate: true,
