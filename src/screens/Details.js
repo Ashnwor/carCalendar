@@ -8,8 +8,8 @@ import { Notifications } from 'expo';
 import moment from 'moment';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
-import { TextInputMask } from 'react-native-masked-text';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { TextInputMask } from 'react-native-masked-text';
 
 function Details({ route, navigation }) {
 	const day = route.params;
@@ -31,23 +31,6 @@ function Details({ route, navigation }) {
 	const [clientNameSurname, setClientNameSurname] = useState('');
 	const [clientPhone, setClientPhone] = useState('');
 	const [referance, setReferance] = useState('');
-
-	const dateToString = (date) => {
-		let day;
-		let month;
-		let year = date.getFullYear();
-		date.getDate().toString().length === 1
-			? (day = '0' + date.getDate().toString())
-			: (day = date.getDate().toString());
-		date.getMonth().toString().length === 1
-			? (month = '0' + (date.getMonth() + 1).toString())
-			: (month = (date.getMonth() + 1).toString());
-		return {
-			normal: `${day}-${month}-${year}`,
-			reverse: `${year}-${month}-${day}`,
-			unprocessed: date,
-		};
-	};
 
 	const onChange = (event, selectedDate) => {
 		const currentDate = selectedDate || retrievalDate;
@@ -75,20 +58,25 @@ function Details({ route, navigation }) {
 
 	const save = () => {
 		console.log('TESTING');
-		const combinedRetrievalDate = dateToString(retrievalDate);
-		if (licensePlate && brand && model) {
+		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
 			if (dates[day.dateString]) {
 				dates[day.dateString][licensePlate] = {
 					brand,
 					model,
-					combinedRetrievalDate,
+					clientNameSurname,
+					clientPhone,
+					referance,
+					retrievalDate,
 				};
 			} else {
 				dates[day.dateString] = {};
 				dates[day.dateString][licensePlate] = {
 					brand,
 					model,
-					combinedRetrievalDate,
+					clientNameSurname,
+					clientPhone,
+					referance,
+					retrievalDate,
 				};
 			}
 			console.log(dates);
@@ -151,22 +139,30 @@ function Details({ route, navigation }) {
 					value={clientNameSurname}
 					onChangeText={(text) => setClientNameSurname(text)}
 				/>
-				<TextInput
-					style={styles.input}
+				<TextInputMask
 					label="Telefon"
+					placeholder="XXXX XXX XX XX"
+					keyboardType="numeric"
+					type="custom"
+					options={{
+						mask: '999 999 99 99',
+						unit: '0',
+					}}
+					customTextInput={TextInput}
 					value={clientPhone}
 					onChangeText={(text) => setClientPhone(text)}
+					style={styles.input}
 				/>
 				<TextInput
 					style={styles.input}
-					label="Referans"
+					label="Referans (isteğe bağlı)"
 					value={referance}
 					onChangeText={(text) => setReferance(text)}
 				/>
 				<ListItem.Item
 					style={styles.input}
 					title="Verilen tarih"
-					description={dateToString(retrievalDate).normal}
+					description={moment(retrievalDate).format('D MMMM YYYY')}
 					left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 					onPress={() => showDatepicker()}
 				/>
