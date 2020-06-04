@@ -13,7 +13,7 @@ import { TextInputMask } from 'react-native-masked-text';
 
 function Details({ route, navigation }) {
 	const { day, edit, editThis } = route.params;
-	console.log('edit this:', editThis);
+	// console.log('edit this:', editThis);
 	navigation.setOptions({
 		headerTitle: edit ? 'Düzenle' : 'Araç Ekle',
 		headerStyle: {
@@ -57,12 +57,12 @@ function Details({ route, navigation }) {
 
 	useFocusEffect(
 		useCallback(() => {
-			console.log('Details');
+			//	console.log('Details');
 			let result;
 			getData('storage').then((value) => {
 				result = value;
 				setDates(result);
-				console.log('result: ', result);
+				// console.log('result: ', result);
 			});
 		}, [])
 	);
@@ -126,7 +126,7 @@ function Details({ route, navigation }) {
 							notificationToken: value,
 						};
 						storeData('storage', dates).then(() => {
-							getData('storage').then((val) => console.log('Saved data:', val));
+							getData('storage').then((val) => console.log('DATA SAVED'));
 						});
 					});
 				};
@@ -134,7 +134,7 @@ function Details({ route, navigation }) {
 				registerNotificationAndStore();
 			} else {
 				storeData('storage', dates).then(() => {
-					getData('storage').then((val) => console.log('Saved data:', val));
+					getData('storage').then((val) => console.log('DATA SAVED'));
 				});
 			}
 

@@ -33,12 +33,12 @@ function List({ route, navigation }) {
 
 	useFocusEffect(
 		useCallback(() => {
-			console.log('List');
+			//console.log('List');
 			let result;
 			getData('storage').then((value) => {
 				result = value;
 				setDates(result);
-				console.log('result: ', result);
+				//	console.log('result: ', result);
 				setLoading(false);
 			});
 		}, [])

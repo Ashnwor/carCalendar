@@ -73,17 +73,17 @@ function HomeScreen({ navigation }) {
 					await storeData('storage', result);
 				}
 
-				console.log('empty:', emptyKeys);
+				//console.log('empty:', emptyKeys);
 				setDates(result);
-				console.log('result: ', result);
+				//console.log('result: ', result);
 			}
-			console.log('Homescreen');
+			//console.log('Homescreen');
 			fetchData();
 		}, [])
 	);
 
 	function OpenList(navigation, day) {
-		console.log(day);
+		// console.log(day);
 		navigation.navigate('List', { day });
 	}
 
