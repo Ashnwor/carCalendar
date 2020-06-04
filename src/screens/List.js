@@ -14,6 +14,8 @@ import theme from '../theme';
 import { storeData, getData } from '../utils';
 import moment from 'moment';
 import 'moment/locale/tr';
+import call from 'react-native-phone-call';
+
 moment.locale('tr');
 
 function List({ route, navigation }) {
@@ -67,29 +69,79 @@ function List({ route, navigation }) {
 								const desc = `${dates[day.dateString][val].brand} - ${
 									dates[day.dateString][val].model
 								}\nAlınan Tarih: ${moment(
-									dates[day.dateString][val].combinedRetrievalDate.unprocessed
+									dates[day.dateString][val].retrievalDate
 								).format('D MMMM YYYY')}`;
 								return (
-									<ListItem.Item
-										key={val}
+									<ListItem.Accordion
 										title={val}
-										description={desc}
+										key={val}
 										left={(props) => <ListItem.Icon {...props} icon="car" />}
-										right={() => (
-											<IconButton
-												icon="delete"
-												color={Colors.red600}
-												size={20}
-												onPress={() =>
-													delete dates[day.dateString][val] &&
-													storeData('storage', dates).then(() => {
-														getData('storage').then((data) => setDates(data));
-													})
-												}
+									>
+										<ListItem.Item
+											title={`Marka: ${dates[day.dateString][val].brand}`}
+											left={(props) => (
+												<ListItem.Icon {...props} icon="tag-multiple" />
+											)}
+										/>
+										<ListItem.Item
+											title={`Model: ${dates[day.dateString][val].model}`}
+											left={(props) => <ListItem.Icon {...props} icon="tag" />}
+										/>
+										<ListItem.Item
+											title={`Müşteri: ${
+												dates[day.dateString][val].clientNameSurname
+											}`}
+											left={(props) => (
+												<ListItem.Icon {...props} icon="account" />
+											)}
+										/>
+										<ListItem.Item
+											title={`Telefon: ${
+												dates[day.dateString][val].clientPhone
+											}`}
+											left={(props) => (
+												<ListItem.Icon {...props} icon="phone" />
+											)}
+											onPress={() =>
+												call({
+													number: dates[day.dateString][
+														val
+													].clientPhone.replace(' ', ''),
+													prompt: false,
+												}).catch(console.error)
+											}
+										/>
+										{dates[day.dateString][val].referance ? (
+											<ListItem.Item
+												title={`Referans: ${
+													dates[day.dateString][val].referance
+												}`}
+												left={(props) => (
+													<ListItem.Icon {...props} icon="account-multiple" />
+												)}
 											/>
-										)}
-										onPress={() => console.log(val)}
-									/>
+										) : null}
+										<ListItem.Item
+											right={(props) => (
+												<>
+													<ListItem.Icon {...props} icon="pencil" />
+													<IconButton
+														icon="delete"
+														color={Colors.red600}
+														size={20}
+														onPress={() =>
+															delete dates[day.dateString][val] &&
+															storeData('storage', dates).then(() => {
+																getData('storage').then((data) =>
+																	setDates(data)
+																);
+															})
+														}
+													/>
+												</>
+											)}
+										/>
+									</ListItem.Accordion>
 								);
 							})}
 						</ScrollView>
