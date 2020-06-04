@@ -75,6 +75,7 @@ function List({ route, navigation }) {
 									clientPhone,
 									referance,
 									retrievalDate,
+									notificationToken,
 								} = licensePlate;
 								return (
 									<ListItem.Accordion
@@ -147,6 +148,7 @@ function List({ route, navigation }) {
 																	clientPhone,
 																	referance,
 																	retrievalDate,
+																	notificationToken,
 																},
 															})
 														}

@@ -70,6 +70,11 @@ function Details({ route, navigation }) {
 	const save = () => {
 		console.log('TESTING');
 		if (edit) delete dates[day.dateString][editThis.licensePlate];
+		if (edit && Platform.OS !== 'web')
+			Notifications.cancelScheduledNotificationAsync(
+				editThis.notificationToken
+			);
+
 		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
 			if (dates[day.dateString]) {
 				dates[day.dateString][licensePlate] = {
@@ -91,8 +96,9 @@ function Details({ route, navigation }) {
 					retrievalDate,
 				};
 			}
-			console.log(dates);
-			storeData('storage', dates).then(async () => {
+			//	console.log(dates);
+
+			if (Platform.OS !== 'web') {
 				const localNotification = {
 					title: 'Yarın teslim edilecek araç:',
 					body: `${licensePlate} ${brand} ${model}`,
@@ -109,14 +115,30 @@ function Details({ route, navigation }) {
 						.second(0)
 						.valueOf(),
 				};
-
-				if (Platform.OS !== 'web')
-					await Notifications.scheduleLocalNotificationAsync(
+				const registerNotificationAndStore = async () => {
+					Notifications.scheduleLocalNotificationAsync(
 						localNotification,
 						schedulingOptions
-					);
-				navigation.goBack();
-			});
+					).then((value) => {
+						console.log('token:', value);
+						dates[day.dateString][licensePlate] = {
+							...dates[day.dateString][licensePlate],
+							notificationToken: value,
+						};
+						storeData('storage', dates).then(() => {
+							getData('storage').then((val) => console.log('Saved data:', val));
+						});
+					});
+				};
+
+				registerNotificationAndStore();
+			} else {
+				storeData('storage', dates).then(() => {
+					getData('storage').then((val) => console.log('Saved data:', val));
+				});
+			}
+
+			navigation.goBack();
 		} else {
 			setVisible(true);
 		}
