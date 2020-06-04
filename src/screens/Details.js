@@ -219,6 +219,12 @@ function Details({ route, navigation }) {
 							{!licensePlate ? <Text>Plaka bilgisi girilmemiş</Text> : null}
 							{!brand ? <Text>Marka bilgisi girilmemiş</Text> : null}
 							{!model ? <Text>Model bilgisi girilmemiş</Text> : null}
+							{!clientNameSurname ? (
+								<Text>Müşteri ad soyad bilgisi girilmemiş</Text>
+							) : null}
+							{!clientPhone ? (
+								<Text>Müşteri telefon bilgisi girilmemiş</Text>
+							) : null}
 						</Dialog.Content>
 						<Dialog.Actions>
 							<Button onPress={() => setVisible(false)}>Done</Button>
