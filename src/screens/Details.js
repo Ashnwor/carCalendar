@@ -208,7 +208,6 @@ function Details({ route, navigation }) {
 						is24Hour={true}
 						display="default"
 						onChange={onChange}
-						maximumDate={new Date()}
 					/>
 				)}
 				<Portal>
