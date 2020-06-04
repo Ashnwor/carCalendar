@@ -179,8 +179,7 @@ function Details({ route, navigation }) {
 					keyboardType="numeric"
 					type="custom"
 					options={{
-						mask: '999 999 99 99',
-						unit: '0',
+						mask: '9999 999 99 99',
 					}}
 					customTextInput={TextInput}
 					value={clientPhone}
