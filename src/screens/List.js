@@ -6,9 +6,12 @@ import {
 	List as ListItem,
 	Headline,
 	Text,
-	IconButton,
+	Button,
 	ActivityIndicator,
 	Colors,
+	Paragraph,
+	Dialog,
+	Portal,
 } from 'react-native-paper';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
@@ -30,15 +33,18 @@ function List({ route, navigation }) {
 
 	const [dates, setDates] = useState({});
 	const [isLoading, setLoading] = useState(true);
+	const [isDialogVisible, setDialogVisible] = useState(false);
+	const [contentToDelete, setContentToDelete] = useState('');
 
 	useFocusEffect(
 		useCallback(() => {
 			//console.log('List');
+			setLoading(true);
 			let result;
 			getData('storage').then((value) => {
 				result = value;
 				setDates(result);
-				//	console.log('result: ', result);
+				//console.log('result: ', result);
 				setLoading(false);
 			});
 		}, [])
@@ -133,9 +139,11 @@ function List({ route, navigation }) {
 										<ListItem.Item
 											right={() => (
 												<>
-													<IconButton
+													<Button
+														uppercase={false}
+														mode="outlined"
 														icon="pencil"
-														size={20}
+														style={{ margin: 4 }}
 														onPress={() =>
 															navigation.navigate('Details', {
 																day,
@@ -152,20 +160,22 @@ function List({ route, navigation }) {
 																},
 															})
 														}
-													/>
-													<IconButton
+													>
+														Düzenle
+													</Button>
+													<Button
+														uppercase={false}
+														style={{ margin: 4, width: 90 }}
+														color={Colors.red500}
+														mode="contained"
 														icon="delete"
-														color={Colors.red600}
-														size={20}
-														onPress={() =>
-															delete dates[day.dateString][val] &&
-															storeData('storage', dates).then(() => {
-																getData('storage').then((data) =>
-																	setDates(data)
-																);
-															})
-														}
-													/>
+														onPress={() => {
+															setContentToDelete(val);
+															setDialogVisible(true);
+														}}
+													>
+														Sil
+													</Button>
 												</>
 											)}
 										/>
@@ -179,6 +189,31 @@ function List({ route, navigation }) {
 						icon="plus"
 						onPress={() => navigation.navigate('Details', { day, edit: false })}
 					/>
+					<Portal>
+						<Dialog
+							visible={isDialogVisible}
+							onDismiss={() => setDialogVisible(false)}
+						>
+							<Dialog.Title>Uyarı</Dialog.Title>
+							<Dialog.Content>
+								<Paragraph>Araç silinsin mi?</Paragraph>
+							</Dialog.Content>
+							<Dialog.Actions>
+								<Button onPress={() => setDialogVisible(false)}>İptal</Button>
+								<Button
+									onPress={() =>
+										delete dates[day.dateString][contentToDelete] &&
+										storeData('storage', dates).then(() => {
+											getData('storage').then((data) => setDates(data));
+											setDialogVisible(false);
+										})
+									}
+								>
+									Onayla
+								</Button>
+							</Dialog.Actions>
+						</Dialog>
+					</Portal>
 				</View>
 			) : (
 				<View style={styles.containerCenter}>
