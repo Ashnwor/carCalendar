@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet, Platform } from 'react-native';
 import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
-import { Button, Dialog, Portal } from 'react-native-paper';
+import { HelperText } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Notifications } from 'expo';
 import moment from 'moment';
@@ -26,19 +26,28 @@ function Details({ route, navigation }) {
 		? useState(new Date())
 		: useState(editThis.retrievalDate);
 	const [show, setShow] = useState(false);
-	const [visible, setVisible] = useState(false);
 
 	const [licensePlate, setLicensePlate] = !edit
 		? useState('')
 		: useState(editThis.licensePlate);
+	const [errLicensePlate, setErrLicensePlate] = useState(false);
+
 	const [brand, setBrand] = !edit ? useState('') : useState(editThis.brand);
+	const [errBrand, setErrBrand] = useState(false);
+
 	const [model, setModel] = !edit ? useState('') : useState(editThis.model);
+	const [errModel, setErrModel] = useState(false);
+
 	const [clientNameSurname, setClientNameSurname] = !edit
 		? useState('')
 		: useState(editThis.clientNameSurname);
+	const [errClientNameSurname, setErrClientNameSurname] = useState(false);
+
 	const [clientPhone, setClientPhone] = !edit
 		? useState('')
 		: useState(editThis.clientPhone);
+	const [errClientPhone, setErrClientPhone] = useState(false);
+
 	const [referance, setReferance] = !edit
 		? useState('')
 		: useState(editThis.referance);
@@ -126,7 +135,11 @@ function Details({ route, navigation }) {
 
 			navigation.goBack();
 		} else {
-			setVisible(true);
+			if (!licensePlate) setErrLicensePlate(true);
+			if (!brand) setErrBrand(true);
+			if (!model) setErrModel(true);
+			if (!clientNameSurname) setErrClientNameSurname(true);
+			if (!clientPhone) setErrClientPhone(true);
 		}
 	};
 
@@ -137,28 +150,46 @@ function Details({ route, navigation }) {
 					style={styles.input}
 					label="Plaka"
 					value={licensePlate}
-					onChangeText={(text) =>
-						setLicensePlate(text.toUpperCase().replace(' ', '-'))
-					}
+					onChangeText={(text) => {
+						setLicensePlate(text.toUpperCase().replace(' ', '-'));
+						setErrLicensePlate(false);
+					}}
 				/>
+				{errLicensePlate && (
+					<HelperText type="error">*Bu alan zorunlu</HelperText>
+				)}
 				<TextInput
 					style={styles.input}
 					label="Marka"
 					value={brand}
-					onChangeText={(text) => setBrand(text)}
+					onChangeText={(text) => {
+						setBrand(text);
+						setErrBrand(false);
+					}}
 				/>
+				{errBrand && <HelperText type="error">*Bu alan zorunlu</HelperText>}
 				<TextInput
 					style={styles.input}
 					label="Model"
 					value={model}
-					onChangeText={(text) => setModel(text)}
+					onChangeText={(text) => {
+						setModel(text);
+						setErrModel(false);
+					}}
 				/>
+				{errModel && <HelperText type="error">*Bu alan zorunlu</HelperText>}
 				<TextInput
 					style={styles.input}
 					label="Müşteri Ad Soyad"
 					value={clientNameSurname}
-					onChangeText={(text) => setClientNameSurname(text)}
+					onChangeText={(text) => {
+						setClientNameSurname(text);
+						setErrClientNameSurname(false);
+					}}
 				/>
+				{errClientNameSurname && (
+					<HelperText type="error">*Bu alan zorunlu</HelperText>
+				)}
 				<TextInputMask
 					label="Telefon"
 					placeholder="XXXX XXX XX XX"
@@ -169,9 +200,16 @@ function Details({ route, navigation }) {
 					}}
 					customTextInput={TextInput}
 					value={clientPhone}
-					onChangeText={(text) => setClientPhone(text)}
+					onChangeText={(text) => {
+						setClientPhone(text);
+						setErrClientPhone(false);
+					}}
 					style={styles.input}
 				/>
+				{errClientPhone && (
+					<HelperText type="error">*Bu alan zorunlu</HelperText>
+				)}
+
 				<TextInput
 					style={styles.input}
 					label="Referans (isteğe bağlı)"
@@ -196,25 +234,6 @@ function Details({ route, navigation }) {
 						onChange={onChange}
 					/>
 				)}
-				<Portal>
-					<Dialog visible={visible} onDismiss={() => setVisible(false)}>
-						<Dialog.Title>Uyarı</Dialog.Title>
-						<Dialog.Content>
-							{!licensePlate ? <Text>Plaka bilgisi girilmemiş</Text> : null}
-							{!brand ? <Text>Marka bilgisi girilmemiş</Text> : null}
-							{!model ? <Text>Model bilgisi girilmemiş</Text> : null}
-							{!clientNameSurname ? (
-								<Text>Müşteri ad soyad bilgisi girilmemiş</Text>
-							) : null}
-							{!clientPhone ? (
-								<Text>Müşteri telefon bilgisi girilmemiş</Text>
-							) : null}
-						</Dialog.Content>
-						<Dialog.Actions>
-							<Button onPress={() => setVisible(false)}>Done</Button>
-						</Dialog.Actions>
-					</Dialog>
-				</Portal>
 			</KeyboardAwareScrollView>
 			<FAB
 				style={styles.fab}
