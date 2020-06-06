@@ -3,7 +3,7 @@
 		"name": "Car Calendar",
 		"slug": "carcalendar",
 		"platforms": ["android"],
-		"version": "1.0.0",
+		"version": "v1.2",
 		"orientation": "portrait",
 		"icon": "./assets/icon.png",
 		"splash": {
@@ -19,7 +19,7 @@
 			"package": "com.ashnwor.carcalendar",
 			"versionCode": 1
 		},
-		"description": "",
-		"githubUrl": "https://github.com/Ashnwor/carCalendar"
+		"description": "A React Native app to manage rental cars.",
+		"githubUrl": "https://github.com/Ashnwor/rn-car-calendar"
 	}
 }
