@@ -104,6 +104,7 @@ function Details({ route, navigation }) {
 						.second(0)
 						.valueOf(),
 				};
+
 				const registerNotificationAndStore = async () => {
 					Notifications.scheduleLocalNotificationAsync(
 						localNotification,
@@ -114,13 +115,16 @@ function Details({ route, navigation }) {
 							...dates[day.dateString][licensePlate],
 							notificationToken: value,
 						};
-						storeData('storage', dates).then(() => {
-							getData('storage').then((val) => console.log('DATA SAVED'));
-						});
 					});
 				};
-
-				registerNotificationAndStore();
+				if (moment().valueOf() >= schedulingOptions.time) {
+					console.log('No notification will be registered');
+					storeData('storage', dates).then(() => {
+						getData('storage').then((val) => console.log('DATA SAVED'));
+					});
+				} else {
+					registerNotificationAndStore();
+				}
 			} else {
 				storeData('storage', dates).then(() => {
 					getData('storage').then((val) => console.log('DATA SAVED'));
