@@ -105,26 +105,21 @@ function Details({ route, navigation }) {
 						.valueOf(),
 				};
 
-				const registerNotificationAndStore = () => {
-					Notifications.scheduleLocalNotificationAsync(
+				const registerNotificationAndStore = async () => {
+					const token = await Notifications.scheduleLocalNotificationAsync(
 						localNotification,
 						schedulingOptions
-					).then((value) => {
-						console.log('token:', value);
-						dates[day.dateString][licensePlate] = {
-							...dates[day.dateString][licensePlate],
-							notificationToken: value,
-						};
-						storeData('storage', dates);
-					});
-				};
-
-				if (moment().valueOf() >= schedulingOptions.time) {
-					console.log('No notification will be registered');
+					);
+					console.log('token:', token);
+					dates[day.dateString][licensePlate] = {
+						...dates[day.dateString][licensePlate],
+						notificationToken: token,
+					};
 					storeData('storage', dates);
-				} else {
-					registerNotificationAndStore();
-				}
+				};
+				moment().valueOf() >= schedulingOptions.time
+					? storeData('storage', dates) // No notification will be registered
+					: registerNotificationAndStore();
 			} else {
 				storeData('storage', dates);
 			}
