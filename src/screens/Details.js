@@ -76,26 +76,15 @@ function Details({ route, navigation }) {
 			);
 
 		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
-			if (dates[day.dateString]) {
-				dates[day.dateString][licensePlate] = {
-					brand,
-					model,
-					clientNameSurname,
-					clientPhone,
-					referance,
-					retrievalDate,
-				};
-			} else {
-				dates[day.dateString] = {};
-				dates[day.dateString][licensePlate] = {
-					brand,
-					model,
-					clientNameSurname,
-					clientPhone,
-					referance,
-					retrievalDate,
-				};
-			}
+			if (!dates[day.dateString]) dates[day.dateString] = {};
+			dates[day.dateString][licensePlate] = {
+				brand,
+				model,
+				clientNameSurname,
+				clientPhone,
+				referance,
+				retrievalDate,
+			};
 			//	console.log(dates);
 
 			if (Platform.OS !== 'web') {
