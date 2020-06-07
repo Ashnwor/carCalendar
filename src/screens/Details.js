@@ -143,6 +143,10 @@ function Details({ route, navigation }) {
 		}
 	};
 
+	function FieldMandatory() {
+		return <HelperText type="error">*Bu alan zorunlu</HelperText>;
+	}
+
 	return (
 		<View style={styles.container}>
 			<KeyboardAwareScrollView style={styles.container}>
@@ -155,9 +159,7 @@ function Details({ route, navigation }) {
 						setErrLicensePlate(false);
 					}}
 				/>
-				{errLicensePlate && (
-					<HelperText type="error">*Bu alan zorunlu</HelperText>
-				)}
+				{errLicensePlate && <FieldMandatory />}
 				<TextInput
 					style={styles.input}
 					label="Marka"
@@ -167,7 +169,7 @@ function Details({ route, navigation }) {
 						setErrBrand(false);
 					}}
 				/>
-				{errBrand && <HelperText type="error">*Bu alan zorunlu</HelperText>}
+				{errBrand && <FieldMandatory />}
 				<TextInput
 					style={styles.input}
 					label="Model"
@@ -177,7 +179,7 @@ function Details({ route, navigation }) {
 						setErrModel(false);
 					}}
 				/>
-				{errModel && <HelperText type="error">*Bu alan zorunlu</HelperText>}
+				{errModel && <FieldMandatory />}
 				<TextInput
 					style={styles.input}
 					label="Müşteri Ad Soyad"
@@ -187,9 +189,7 @@ function Details({ route, navigation }) {
 						setErrClientNameSurname(false);
 					}}
 				/>
-				{errClientNameSurname && (
-					<HelperText type="error">*Bu alan zorunlu</HelperText>
-				)}
+				{errClientNameSurname && <FieldMandatory />}
 				<TextInputMask
 					label="Telefon"
 					placeholder="XXXX XXX XX XX"
@@ -206,9 +206,7 @@ function Details({ route, navigation }) {
 					}}
 					style={styles.input}
 				/>
-				{errClientPhone && (
-					<HelperText type="error">*Bu alan zorunlu</HelperText>
-				)}
+				{errClientPhone && <FieldMandatory />}
 
 				<TextInput
 					style={styles.input}
