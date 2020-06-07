@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet, Platform } from 'react-native';
-import { TextInput, FAB, List as ListItem, Text } from 'react-native-paper';
+import { TextInput, FAB, List as ListItem } from 'react-native-paper';
 import { HelperText } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Notifications } from 'expo';
