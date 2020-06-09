@@ -13,11 +13,11 @@ import {
 	Dialog,
 	Portal,
 } from 'react-native-paper';
+import ListAccordion from '../components/ListAccordion';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 import moment from 'moment';
 import 'moment/locale/tr';
-import call from 'react-native-phone-call';
 
 moment.locale('tr');
 
@@ -74,112 +74,15 @@ function List({ route, navigation }) {
 						<ScrollView>
 							{Object.keys(dates[day.dateString]).map((val) => {
 								const licensePlate = dates[day.dateString][val];
-								const {
-									brand,
-									model,
-									clientNameSurname,
-									clientPhone,
-									referance,
-									retrievalDate,
-									notificationToken,
-								} = licensePlate;
+
 								return (
-									<ListItem.Accordion
-										title={val}
-										key={val}
-										left={(props) => <ListItem.Icon {...props} icon="car" />}
-									>
-										<ListItem.Item
-											title={`Marka: ${brand}`}
-											left={(props) => (
-												<ListItem.Icon {...props} icon="tag-multiple" />
-											)}
-										/>
-										<ListItem.Item
-											title={`Model: ${model}`}
-											left={(props) => <ListItem.Icon {...props} icon="tag" />}
-										/>
-										<ListItem.Item
-											title={`Müşteri: ${clientNameSurname}`}
-											left={(props) => (
-												<ListItem.Icon {...props} icon="account" />
-											)}
-										/>
-										<ListItem.Item
-											title={`Telefon: ${clientPhone}`}
-											left={(props) => (
-												<ListItem.Icon {...props} icon="phone" />
-											)}
-											right={(props) => (
-												<ListItem.Icon {...props} icon="call-made" />
-											)}
-											onPress={() =>
-												call({
-													number: clientPhone.replace(' ', ''),
-													prompt: false,
-												}).catch(console.error)
-											}
-										/>
-										{referance ? (
-											<ListItem.Item
-												title={`Referans: ${referance}`}
-												left={(props) => (
-													<ListItem.Icon {...props} icon="account-multiple" />
-												)}
-											/>
-										) : null}
-										<ListItem.Item
-											title={`Verilen tarih: ${`${moment(retrievalDate).format(
-												'D MMMM YYYY'
-											)}`}`}
-											left={(props) => (
-												<ListItem.Icon {...props} icon="calendar" />
-											)}
-										/>
-										<ListItem.Item
-											right={() => (
-												<>
-													<Button
-														uppercase={false}
-														mode="outlined"
-														icon="pencil"
-														style={{ margin: 4 }}
-														onPress={() =>
-															navigation.navigate('Details', {
-																day,
-																edit: true,
-																editThis: {
-																	licensePlate: val,
-																	brand,
-																	model,
-																	clientNameSurname,
-																	clientPhone,
-																	referance,
-																	retrievalDate,
-																	notificationToken,
-																},
-															})
-														}
-													>
-														Düzenle
-													</Button>
-													<Button
-														uppercase={false}
-														style={{ margin: 4, width: 90 }}
-														color={Colors.red500}
-														mode="contained"
-														icon="delete"
-														onPress={() => {
-															setContentToDelete(val);
-															setDialogVisible(true);
-														}}
-													>
-														Sil
-													</Button>
-												</>
-											)}
-										/>
-									</ListItem.Accordion>
+									<ListAccordion
+										licensePlateName={val}
+										details={licensePlate}
+										navigation={navigation}
+										functions={{ setContentToDelete, setDialogVisible }}
+										day={day}
+									/>
 								);
 							})}
 						</ScrollView>
