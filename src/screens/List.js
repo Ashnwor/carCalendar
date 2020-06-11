@@ -13,6 +13,7 @@ import {
 	Dialog,
 	Portal,
 } from 'react-native-paper';
+import { Notifications } from 'expo';
 import ListAccordion from '../components/ListAccordion';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
@@ -105,6 +106,9 @@ function List({ route, navigation }) {
 								<Button onPress={() => setDialogVisible(false)}>İptal</Button>
 								<Button
 									onPress={() =>
+										Notifications.cancelScheduledNotificationAsync(
+											dates[day.dateString][contentToDelete].notificationToken
+										) &&
 										delete dates[day.dateString][contentToDelete] &&
 										storeData('storage', dates).then(() => {
 											getData('storage').then((data) => setDates(data));
