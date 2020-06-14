@@ -34,3 +34,4 @@ expo build:android
 or alternatively if you wanna build on your device check: https://docs.expo.io/distribution/turtle-cli/
 
 ![GitHub](https://img.shields.io/github/license/Ashnwor/rn-car-calendar)
+[![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-000.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/)
