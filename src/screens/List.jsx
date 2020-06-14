@@ -70,7 +70,7 @@ function List({ route, navigation }) {
 						<NoItemFound />
 					) : (
 						<ScrollView>
-							{Object.keys(dates[selectedDate]).map((val) => {
+							{Object.keys(dates[selectedDate]).map((val, index) => {
 								const licensePlate = dates[selectedDate][val];
 
 								return (
@@ -79,6 +79,7 @@ function List({ route, navigation }) {
 										details={licensePlate}
 										navigation={navigation}
 										functions={{ setContentToDelete, setDialogVisible }}
+										key={`${val}-${index}`}
 										day={day}
 									/>
 								);
