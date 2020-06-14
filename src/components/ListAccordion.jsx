@@ -15,7 +15,7 @@ export default function ListAccordion(props) {
 		clientNameSurname,
 		clientPhone,
 		referance,
-		retrievalDate,
+		givenDate,
 		notificationToken,
 	} = props.details;
 	return (
@@ -59,8 +59,8 @@ export default function ListAccordion(props) {
 				/>
 			) : null}
 			<List.Item
-				title={`Verilen tarih: ${`${moment(retrievalDate).format('D MMMM YYYY')}`}`}
-				key={`${licensePlate}-${retrievalDate}`}
+				title={`Verilen tarih: ${`${moment(givenDate).format('D MMMM YYYY')}`}`}
+				key={`${licensePlate}-${givenDate}`}
 				left={(props) => <List.Icon {...props} icon="calendar" />}
 			/>
 			<List.Item
@@ -83,7 +83,7 @@ export default function ListAccordion(props) {
 										clientNameSurname,
 										clientPhone,
 										referance,
-										retrievalDate,
+										givenDate,
 										notificationToken,
 									},
 								})

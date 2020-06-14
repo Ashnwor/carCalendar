@@ -23,9 +23,11 @@ import 'moment/locale/tr';
 const { OS } = Platform;
 
 function List({ route, navigation }) {
-	const day = route.params.day;
+	const { day } = route.params;
+	const selectedDate = day.dateString;
+
 	navigation.setOptions({
-		headerTitle: moment(day.dateString, 'YYYY-MM-DD').format('D MMMM YYYY'),
+		headerTitle: moment(selectedDate, 'YYYY-MM-DD').format('D MMMM YYYY'),
 		headerStyle: {
 			backgroundColor: theme.colors.primary,
 		},
@@ -64,12 +66,12 @@ function List({ route, navigation }) {
 		<>
 			{!isLoading ? (
 				<View style={styles.container}>
-					{!dates[day.dateString] || Object.keys(dates[day.dateString]).length === 0 ? (
+					{!dates[selectedDate] || Object.keys(dates[selectedDate]).length === 0 ? (
 						<NoItemFound />
 					) : (
 						<ScrollView>
-							{Object.keys(dates[day.dateString]).map((val) => {
-								const licensePlate = dates[day.dateString][val];
+							{Object.keys(dates[selectedDate]).map((val) => {
+								const licensePlate = dates[selectedDate][val];
 
 								return (
 									<ListAccordion
@@ -100,9 +102,9 @@ function List({ route, navigation }) {
 									onPress={() => {
 										if (OS !== 'web')
 											Notifications.cancelScheduledNotificationAsync(
-												dates[day.dateString][contentToDelete].notificationToken,
+												dates[selectedDate][contentToDelete].notificationToken,
 											);
-										delete dates[day.dateString][contentToDelete];
+										delete dates[selectedDate][contentToDelete];
 										storeData('storage', dates);
 										setDialogVisible(false);
 									}}

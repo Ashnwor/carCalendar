@@ -15,6 +15,7 @@ const { OS } = Platform;
 
 function Details({ route, navigation }) {
 	const { day, edit, editThis } = route.params;
+	const selectedDate = day.dateString;
 	navigation.setOptions({
 		headerTitle: edit ? 'Düzenle' : 'Araç Ekle',
 		headerStyle: {
@@ -23,9 +24,7 @@ function Details({ route, navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
-	const [retrievalDate, setRetrievalDate] = !edit
-		? useState(new Date())
-		: useState(editThis.retrievalDate);
+	const [givenDate, setGivenDate] = !edit ? useState(new Date()) : useState(editThis.givenDate);
 	const [show, setShow] = useState(false);
 
 	const [licensePlate, setLicensePlate] = !edit ? useState('') : useState(editThis.licensePlate);
@@ -47,10 +46,10 @@ function Details({ route, navigation }) {
 
 	const [referance, setReferance] = !edit ? useState('') : useState(editThis.referance);
 
-	const onChange = (event, selectedDate) => {
-		const currentDate = selectedDate || retrievalDate;
+	const onChange = (event, selectedgivenDate) => {
+		const currentDate = selectedgivenDate || givenDate;
 		setShow(OS === 'ios');
-		setRetrievalDate(currentDate);
+		setGivenDate(currentDate);
 	};
 
 	const showDatepicker = () => {
@@ -67,19 +66,19 @@ function Details({ route, navigation }) {
 
 	const save = async () => {
 		console.log('TESTING');
-		if (edit) delete dates[day.dateString][editThis.licensePlate];
+		if (edit) delete dates[selectedDate][editThis.licensePlate];
 		if (edit && OS !== 'web')
 			Notifications.cancelScheduledNotificationAsync(editThis.notificationToken);
 
 		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
-			if (!dates[day.dateString]) dates[day.dateString] = {};
-			dates[day.dateString][licensePlate] = {
+			if (!dates[selectedDate]) dates[selectedDate] = {};
+			dates[selectedDate][licensePlate] = {
 				brand,
 				model,
 				clientNameSurname,
 				clientPhone,
 				referance,
-				retrievalDate,
+				givenDate,
 			};
 
 			const localNotification = {
@@ -91,7 +90,7 @@ function Details({ route, navigation }) {
 			};
 
 			const schedulingOptions = {
-				time: moment(day.dateString, 'YYYY-MM-DD')
+				time: moment(selectedDate, 'YYYY-MM-DD')
 					.subtract(1, 'day')
 					.hour(21)
 					.minute(0)
@@ -105,8 +104,8 @@ function Details({ route, navigation }) {
 					schedulingOptions,
 				);
 				console.log('token:', token);
-				dates[day.dateString][licensePlate] = {
-					...dates[day.dateString][licensePlate],
+				dates[selectedDate][licensePlate] = {
+					...dates[selectedDate][licensePlate],
 					notificationToken: token,
 				};
 			};
@@ -198,7 +197,7 @@ function Details({ route, navigation }) {
 				<ListItem.Item
 					style={styles.input}
 					title="Verilen tarih"
-					description={moment(retrievalDate).format('D MMMM YYYY')}
+					description={moment(givenDate).format('D MMMM YYYY')}
 					left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 					onPress={() => showDatepicker()}
 				/>
@@ -206,7 +205,7 @@ function Details({ route, navigation }) {
 					<DateTimePicker
 						testID="dateTimePicker"
 						timeZoneOffsetInMinutes={0}
-						value={retrievalDate}
+						value={givenDate}
 						mode={'date'}
 						is24Hour={true}
 						display="default"
