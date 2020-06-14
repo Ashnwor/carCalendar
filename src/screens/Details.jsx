@@ -11,6 +11,8 @@ import { TextInput, FAB, List as ListItem, HelperText } from 'react-native-paper
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 
+const { OS } = Platform;
+
 function Details({ route, navigation }) {
 	const { day, edit, editThis } = route.params;
 	// console.log('edit this:', editThis);
@@ -48,7 +50,7 @@ function Details({ route, navigation }) {
 
 	const onChange = (event, selectedDate) => {
 		const currentDate = selectedDate || retrievalDate;
-		setShow(Platform.OS === 'ios');
+		setShow(OS === 'ios');
 		setRetrievalDate(currentDate);
 	};
 
@@ -70,10 +72,10 @@ function Details({ route, navigation }) {
 		}, []),
 	);
 
-	const save = () => {
+	const save = async () => {
 		console.log('TESTING');
 		if (edit) delete dates[day.dateString][editThis.licensePlate];
-		if (edit && Platform.OS !== 'web')
+		if (edit && OS !== 'web')
 			Notifications.cancelScheduledNotificationAsync(editThis.notificationToken);
 
 		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
@@ -86,47 +88,39 @@ function Details({ route, navigation }) {
 				referance,
 				retrievalDate,
 			};
-			//	console.log(dates);
 
-			if (Platform.OS !== 'web') {
-				const localNotification = {
-					title: 'Yarın teslim alınacak araç:',
-					body: `${licensePlate} ${brand} ${model}`,
-					priority: 'max',
-					vibrate: true,
-					color: 'red',
+			const localNotification = {
+				title: 'Yarın teslim alınacak araç:',
+				body: `${licensePlate} ${brand} ${model}`,
+				priority: 'max',
+				vibrate: true,
+				color: 'red',
+			};
+
+			const schedulingOptions = {
+				time: moment(day.dateString, 'YYYY-MM-DD')
+					.subtract(1, 'day')
+					.hour(21)
+					.minute(0)
+					.second(0)
+					.valueOf(),
+			};
+
+			const registerNotification = async () => {
+				const token = await Notifications.scheduleLocalNotificationAsync(
+					localNotification,
+					schedulingOptions,
+				);
+				console.log('token:', token);
+				dates[day.dateString][licensePlate] = {
+					...dates[day.dateString][licensePlate],
+					notificationToken: token,
 				};
+			};
 
-				const schedulingOptions = {
-					time: moment(day.dateString, 'YYYY-MM-DD')
-						.subtract(1, 'day')
-						.hour(21)
-						.minute(0)
-						.second(0)
-						.valueOf(),
-				};
+			if (moment().valueOf() <= schedulingOptions.time && OS !== 'web') registerNotification();
 
-				const registerNotificationAndStore = async () => {
-					const token = await Notifications.scheduleLocalNotificationAsync(
-						localNotification,
-						schedulingOptions,
-					);
-					console.log('token:', token);
-					dates[day.dateString][licensePlate] = {
-						...dates[day.dateString][licensePlate],
-						notificationToken: token,
-					};
-					storeData('storage', dates);
-				};
-				if (moment().valueOf() >= schedulingOptions.time) {
-					storeData('storage', dates);
-				} else {
-					registerNotificationAndStore();
-				}
-			} else {
-				storeData('storage', dates);
-			}
-
+			await storeData('storage', dates);
 			navigation.goBack();
 		} else {
 			if (!licensePlate) setErrLicensePlate(true);
