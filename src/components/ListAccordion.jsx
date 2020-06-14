@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import moment from 'moment';
 import React from 'react';
 import { List, Button, Colors } from 'react-native-paper';

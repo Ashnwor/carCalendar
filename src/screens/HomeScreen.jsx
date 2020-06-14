@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';

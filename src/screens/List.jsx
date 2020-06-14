@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useFocusEffect } from '@react-navigation/native';
 import { Notifications } from 'expo';
 import moment from 'moment';
