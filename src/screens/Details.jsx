@@ -15,7 +15,6 @@ const { OS } = Platform;
 
 function Details({ route, navigation }) {
 	const { day, edit, editThis } = route.params;
-	// console.log('edit this:', editThis);
 	navigation.setOptions({
 		headerTitle: edit ? 'Düzenle' : 'Araç Ekle',
 		headerStyle: {
@@ -62,12 +61,10 @@ function Details({ route, navigation }) {
 
 	useFocusEffect(
 		useCallback(() => {
-			//	console.log('Details');
 			let result;
 			getData('storage').then((value) => {
 				result = value;
 				setDates(result);
-				// console.log('result: ', result);
 			});
 		}, []),
 	);

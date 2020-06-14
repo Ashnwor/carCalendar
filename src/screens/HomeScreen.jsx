@@ -4,44 +4,13 @@ import { View, StyleSheet } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import calendarLocale from '../calendarLocale/';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 
-LocaleConfig.locales['tr'] = {
-	monthNames: [
-		'Ocak',
-		'Şubat',
-		'Mart',
-		'Nisan',
-		'Mayıs',
-		'Haziran',
-		'Temmuz',
-		'Ağustos',
-		'Eylül',
-		'Ekim',
-		'Kasım',
-		'Aralık',
-	],
-	monthNamesShort: [
-		'Ocak',
-		'Şub',
-		'Mart',
-		'Nis',
-		'May',
-		'Haz',
-		'Tem',
-		'Ağu',
-		'Eyl',
-		'Ekim',
-		'Kas',
-		'Ara',
-	],
-	dayNames: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
-	dayNamesShort: ['Paz', 'Pzt', 'Sal', 'Çarş', 'Perş', 'Cum', 'Cmt'],
-	today: 'Bugün',
-};
-
+LocaleConfig.locales['tr'] = calendarLocale;
 LocaleConfig.defaultLocale = 'tr';
+
 function HomeScreen({ navigation }) {
 	navigation.setOptions({
 		headerTitle: 'Takvim',
@@ -63,18 +32,13 @@ function HomeScreen({ navigation }) {
 					emptyKeys.forEach((value) => delete result[value]);
 					await storeData('storage', result);
 				}
-
-				//console.log('empty:', emptyKeys);
 				setDates(result);
-				//console.log('result: ', result);
 			}
-			//console.log('Homescreen');
 			fetchData();
 		}, []),
 	);
 
 	function OpenList(navigation, day) {
-		// console.log(day);
 		navigation.navigate('List', { day });
 	}
 
@@ -108,4 +72,5 @@ const styles = StyleSheet.create({
 		height: '90%',
 	},
 });
+
 export default HomeScreen;

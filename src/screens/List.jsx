@@ -20,6 +20,7 @@ import { storeData, getData } from '../utils';
 
 import 'moment/locale/tr';
 
+const { OS } = Platform;
 function List({ route, navigation }) {
 	const day = route.params.day;
 	navigation.setOptions({
@@ -100,7 +101,7 @@ function List({ route, navigation }) {
 								<Button onPress={() => setDialogVisible(false)}>İptal</Button>
 								<Button
 									onPress={() => {
-										if (Platform.OS !== 'web')
+										if (OS !== 'web')
 											Notifications.cancelScheduledNotificationAsync(
 												dates[day.dateString][contentToDelete].notificationToken,
 											);
