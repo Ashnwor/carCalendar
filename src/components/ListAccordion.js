@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import moment from 'moment';
 import React from 'react';
 import { List, Button, Colors } from 'react-native-paper';
 import call from 'react-native-phone-call';
-import moment from 'moment';
 import 'moment/locale/tr';
 
 export default function ListAccordion(props) {

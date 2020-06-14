@@ -1,5 +1,8 @@
-import React, { useState, useCallback, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useFocusEffect } from '@react-navigation/native';
+import { Notifications } from 'expo';
+import moment from 'moment';
+import React, { useState, useCallback, useEffect } from 'react';
 import { View, StyleSheet, ScrollView, Platform } from 'react-native';
 import {
 	FAB,
@@ -11,11 +14,11 @@ import {
 	Dialog,
 	Portal,
 } from 'react-native-paper';
-import { Notifications } from 'expo';
+
 import ListAccordion from '../components/ListAccordion';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
-import moment from 'moment';
+
 import 'moment/locale/tr';
 
 function List({ route, navigation }) {

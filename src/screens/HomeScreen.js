@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useFocusEffect } from '@react-navigation/native';
 import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import theme from '../theme';
-import { useFocusEffect } from '@react-navigation/native';
 import { storeData, getData } from '../utils';
 
 LocaleConfig.locales['tr'] = {

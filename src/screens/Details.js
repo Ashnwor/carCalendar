@@ -1,15 +1,16 @@
-import React, { useState, useCallback } from 'react';
-import { useFocusEffect } from '@react-navigation/native';
-import { View, StyleSheet, Platform } from 'react-native';
-import { TextInput, FAB, List as ListItem } from 'react-native-paper';
-import { HelperText } from 'react-native-paper';
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useFocusEffect } from '@react-navigation/native';
 import { Notifications } from 'expo';
 import moment from 'moment';
-import theme from '../theme';
-import { storeData, getData } from '../utils';
+import React, { useState, useCallback } from 'react';
+import { View, StyleSheet, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInputMask } from 'react-native-masked-text';
+import { TextInput, FAB, List as ListItem, HelperText } from 'react-native-paper';
+
+import theme from '../theme';
+import { storeData, getData } from '../utils';
 
 function Details({ route, navigation }) {
 	const { day, edit, editThis } = route.params;
@@ -118,9 +119,11 @@ function Details({ route, navigation }) {
 					};
 					storeData('storage', dates);
 				};
-				moment().valueOf() >= schedulingOptions.time
-					? storeData('storage', dates) // No notification will be registered
-					: registerNotificationAndStore();
+				if (moment().valueOf() >= schedulingOptions.time) {
+					storeData('storage', dates);
+				} else {
+					registerNotificationAndStore();
+				}
 			} else {
 				storeData('storage', dates);
 			}
