@@ -3,12 +3,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import { View, StyleSheet, ScrollView, Platform } from 'react-native';
 import {
 	FAB,
-	List as ListItem,
 	Headline,
 	Text,
 	Button,
 	ActivityIndicator,
-	Colors,
 	Paragraph,
 	Dialog,
 	Portal,
