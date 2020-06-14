@@ -24,7 +24,7 @@ function HomeScreen({ navigation }) {
 
 	useFocusEffect(
 		useCallback(() => {
-			async function fetchData() {
+			const fetchData = async () => {
 				const result = await getData('storage');
 				const resultKeys = Object.keys(result);
 				const emptyKeys = resultKeys.filter((value) => Object.keys(result[value]).length === 0);
@@ -33,7 +33,7 @@ function HomeScreen({ navigation }) {
 					await storeData('storage', result);
 				}
 				setDates(result);
-			}
+			};
 			fetchData();
 		}, []),
 	);

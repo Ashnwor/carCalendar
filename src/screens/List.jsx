@@ -21,6 +21,7 @@ import { storeData, getData } from '../utils';
 import 'moment/locale/tr';
 
 const { OS } = Platform;
+
 function List({ route, navigation }) {
 	const day = route.params.day;
 	navigation.setOptions({
@@ -38,13 +39,9 @@ function List({ route, navigation }) {
 
 	useFocusEffect(
 		useCallback(() => {
-			//console.log('List');
 			setLoading(true);
-			let result;
-			getData('storage').then((value) => {
-				result = value;
+			getData('storage').then((result) => {
 				setDates(result);
-				//console.log('result: ', result);
 				setLoading(false);
 			});
 		}, []),

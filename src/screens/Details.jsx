@@ -61,11 +61,7 @@ function Details({ route, navigation }) {
 
 	useFocusEffect(
 		useCallback(() => {
-			let result;
-			getData('storage').then((value) => {
-				result = value;
-				setDates(result);
-			});
+			getData('storage').then((result) => setDates(result));
 		}, []),
 	);
 
