@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Platform } from 'react-native';
 import {
 	FAB,
 	List as ListItem,
@@ -105,16 +105,17 @@ function List({ route, navigation }) {
 							<Dialog.Actions>
 								<Button onPress={() => setDialogVisible(false)}>İptal</Button>
 								<Button
-									onPress={() =>
-										Notifications.cancelScheduledNotificationAsync(
-											dates[day.dateString][contentToDelete].notificationToken
-										) &&
-										delete dates[day.dateString][contentToDelete] &&
+									onPress={() => {
+										if (Platform.OS !== 'web')
+											Notifications.cancelScheduledNotificationAsync(
+												dates[day.dateString][contentToDelete].notificationToken
+											);
+										delete dates[day.dateString][contentToDelete];
 										storeData('storage', dates).then(() => {
 											getData('storage').then((data) => setDates(data));
 											setDialogVisible(false);
-										})
-									}
+										});
+									}}
 								>
 									Onayla
 								</Button>
