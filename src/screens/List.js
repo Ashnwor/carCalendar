@@ -18,8 +18,6 @@ import { storeData, getData } from '../utils';
 import moment from 'moment';
 import 'moment/locale/tr';
 
-moment.locale('tr');
-
 function List({ route, navigation }) {
 	const day = route.params.day;
 	navigation.setOptions({
