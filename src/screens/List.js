@@ -44,7 +44,7 @@ function List({ route, navigation }) {
 				//console.log('result: ', result);
 				setLoading(false);
 			});
-		}, [])
+		}, []),
 	);
 
 	useEffect(() => {
@@ -64,8 +64,7 @@ function List({ route, navigation }) {
 		<>
 			{!isLoading ? (
 				<View style={styles.container}>
-					{!dates[day.dateString] ||
-					Object.keys(dates[day.dateString]).length === 0 ? (
+					{!dates[day.dateString] || Object.keys(dates[day.dateString]).length === 0 ? (
 						<NoItemFound />
 					) : (
 						<ScrollView>
@@ -90,10 +89,7 @@ function List({ route, navigation }) {
 						onPress={() => navigation.navigate('Details', { day, edit: false })}
 					/>
 					<Portal>
-						<Dialog
-							visible={isDialogVisible}
-							onDismiss={() => setDialogVisible(false)}
-						>
+						<Dialog visible={isDialogVisible} onDismiss={() => setDialogVisible(false)}>
 							<Dialog.Title>Uyarı</Dialog.Title>
 							<Dialog.Content>
 								<Paragraph>Araç silinsin mi?</Paragraph>
@@ -104,7 +100,7 @@ function List({ route, navigation }) {
 									onPress={() => {
 										if (Platform.OS !== 'web')
 											Notifications.cancelScheduledNotificationAsync(
-												dates[day.dateString][contentToDelete].notificationToken
+												dates[day.dateString][contentToDelete].notificationToken,
 											);
 										delete dates[day.dateString][contentToDelete];
 										storeData('storage', dates).then(() => {

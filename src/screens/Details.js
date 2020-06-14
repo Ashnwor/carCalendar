@@ -27,9 +27,7 @@ function Details({ route, navigation }) {
 		: useState(editThis.retrievalDate);
 	const [show, setShow] = useState(false);
 
-	const [licensePlate, setLicensePlate] = !edit
-		? useState('')
-		: useState(editThis.licensePlate);
+	const [licensePlate, setLicensePlate] = !edit ? useState('') : useState(editThis.licensePlate);
 	const [errLicensePlate, setErrLicensePlate] = useState(false);
 
 	const [brand, setBrand] = !edit ? useState('') : useState(editThis.brand);
@@ -43,14 +41,10 @@ function Details({ route, navigation }) {
 		: useState(editThis.clientNameSurname);
 	const [errClientNameSurname, setErrClientNameSurname] = useState(false);
 
-	const [clientPhone, setClientPhone] = !edit
-		? useState('')
-		: useState(editThis.clientPhone);
+	const [clientPhone, setClientPhone] = !edit ? useState('') : useState(editThis.clientPhone);
 	const [errClientPhone, setErrClientPhone] = useState(false);
 
-	const [referance, setReferance] = !edit
-		? useState('')
-		: useState(editThis.referance);
+	const [referance, setReferance] = !edit ? useState('') : useState(editThis.referance);
 
 	const onChange = (event, selectedDate) => {
 		const currentDate = selectedDate || retrievalDate;
@@ -73,16 +67,14 @@ function Details({ route, navigation }) {
 				setDates(result);
 				// console.log('result: ', result);
 			});
-		}, [])
+		}, []),
 	);
 
 	const save = () => {
 		console.log('TESTING');
 		if (edit) delete dates[day.dateString][editThis.licensePlate];
 		if (edit && Platform.OS !== 'web')
-			Notifications.cancelScheduledNotificationAsync(
-				editThis.notificationToken
-			);
+			Notifications.cancelScheduledNotificationAsync(editThis.notificationToken);
 
 		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
 			if (!dates[day.dateString]) dates[day.dateString] = {};
@@ -117,7 +109,7 @@ function Details({ route, navigation }) {
 				const registerNotificationAndStore = async () => {
 					const token = await Notifications.scheduleLocalNotificationAsync(
 						localNotification,
-						schedulingOptions
+						schedulingOptions,
 					);
 					console.log('token:', token);
 					dates[day.dateString][licensePlate] = {
@@ -233,12 +225,7 @@ function Details({ route, navigation }) {
 					/>
 				)}
 			</KeyboardAwareScrollView>
-			<FAB
-				style={styles.fab}
-				icon="content-save"
-				label="Kaydet"
-				onPress={() => save()}
-			/>
+			<FAB style={styles.fab} icon="content-save" label="Kaydet" onPress={() => save()} />
 		</View>
 	);
 }

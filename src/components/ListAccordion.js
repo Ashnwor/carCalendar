@@ -59,9 +59,7 @@ export default function ListAccordion(props) {
 				/>
 			) : null}
 			<List.Item
-				title={`Verilen tarih: ${`${moment(retrievalDate).format(
-					'D MMMM YYYY'
-				)}`}`}
+				title={`Verilen tarih: ${`${moment(retrievalDate).format('D MMMM YYYY')}`}`}
 				key={`${licensePlate}-${retrievalDate}`}
 				left={(props) => <List.Icon {...props} icon="calendar" />}
 			/>

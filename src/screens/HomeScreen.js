@@ -35,15 +35,7 @@ LocaleConfig.locales['tr'] = {
 		'Kas',
 		'Ara',
 	],
-	dayNames: [
-		'Pazar',
-		'Pazartesi',
-		'Salı',
-		'Çarşamba',
-		'Perşembe',
-		'Cuma',
-		'Cumartesi',
-	],
+	dayNames: ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'],
 	dayNamesShort: ['Paz', 'Pzt', 'Sal', 'Çarş', 'Perş', 'Cum', 'Cmt'],
 	today: 'Bugün',
 };
@@ -65,9 +57,7 @@ function HomeScreen({ navigation }) {
 			async function fetchData() {
 				const result = await getData('storage');
 				const resultKeys = Object.keys(result);
-				const emptyKeys = resultKeys.filter(
-					(value) => Object.keys(result[value]).length === 0
-				);
+				const emptyKeys = resultKeys.filter((value) => Object.keys(result[value]).length === 0);
 				if (emptyKeys.length > 0) {
 					emptyKeys.forEach((value) => delete result[value]);
 					await storeData('storage', result);
@@ -79,7 +69,7 @@ function HomeScreen({ navigation }) {
 			}
 			//console.log('Homescreen');
 			fetchData();
-		}, [])
+		}, []),
 	);
 
 	function OpenList(navigation, day) {
@@ -88,9 +78,7 @@ function HomeScreen({ navigation }) {
 	}
 
 	const datesKeys = Object.keys(dates);
-	const markedDates = Object.fromEntries(
-		datesKeys.map((date) => [date, { selected: true }])
-	);
+	const markedDates = Object.fromEntries(datesKeys.map((date) => [date, { selected: true }]));
 
 	return (
 		<View style={styles.container}>
@@ -101,9 +89,7 @@ function HomeScreen({ navigation }) {
 				}}
 				minDate={Date()}
 				firstDay={1}
-				renderArrow={(direction) => (
-					<Icon name={'chevron-' + direction} size={30} />
-				)}
+				renderArrow={(direction) => <Icon name={'chevron-' + direction} size={30} />}
 				markedDates={markedDates}
 			/>
 		</View>
