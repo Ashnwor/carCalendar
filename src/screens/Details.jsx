@@ -24,32 +24,29 @@ function Details({ route, navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
-	const [givenDate, setGivenDate] = !edit ? useState(new Date()) : useState(editThis.givenDate);
+	const [details, setDetails] = useState({
+		licensePlate: !edit ? '' : editThis.licensePlate,
+		brand: !edit ? '' : editThis.brand,
+		model: !edit ? '' : editThis.model,
+		clientNameSurname: !edit ? '' : editThis.clientNameSurname,
+		clientPhone: !edit ? '' : editThis.clientPhone,
+		referance: !edit ? '' : editThis.referance,
+		givenDate: !edit ? new Date() : editThis.givenDate,
+	});
+
+	const [errors, setErrors] = useState({
+		licensePlate: false,
+		brand: false,
+		model: false,
+		clientNameSurname: false,
+		clientPhone: false,
+	});
+
 	const [show, setShow] = useState(false);
-
-	const [licensePlate, setLicensePlate] = !edit ? useState('') : useState(editThis.licensePlate);
-	const [errLicensePlate, setErrLicensePlate] = useState(false);
-
-	const [brand, setBrand] = !edit ? useState('') : useState(editThis.brand);
-	const [errBrand, setErrBrand] = useState(false);
-
-	const [model, setModel] = !edit ? useState('') : useState(editThis.model);
-	const [errModel, setErrModel] = useState(false);
-
-	const [clientNameSurname, setClientNameSurname] = !edit
-		? useState('')
-		: useState(editThis.clientNameSurname);
-	const [errClientNameSurname, setErrClientNameSurname] = useState(false);
-
-	const [clientPhone, setClientPhone] = !edit ? useState('') : useState(editThis.clientPhone);
-	const [errClientPhone, setErrClientPhone] = useState(false);
-
-	const [referance, setReferance] = !edit ? useState('') : useState(editThis.referance);
-
 	const onChange = (event, selectedgivenDate) => {
-		const currentDate = selectedgivenDate || givenDate;
+		const currentDate = selectedgivenDate || details.givenDate;
 		setShow(OS === 'ios');
-		setGivenDate(currentDate);
+		setDetails({ ...details, givenDate: currentDate });
 	};
 
 	const showDatepicker = () => {
@@ -65,7 +62,18 @@ function Details({ route, navigation }) {
 	);
 
 	const save = async () => {
-		console.log('TESTING');
+		console.log(details);
+		console.log(errors);
+		const {
+			licensePlate,
+			brand,
+			model,
+			clientNameSurname,
+			clientPhone,
+			referance,
+			givenDate,
+		} = details;
+
 		if (edit) delete dates[selectedDate][editThis.licensePlate];
 		if (edit && OS !== 'web')
 			Notifications.cancelScheduledNotificationAsync(editThis.notificationToken);
@@ -115,11 +123,13 @@ function Details({ route, navigation }) {
 			await storeData('storage', dates);
 			navigation.goBack();
 		} else {
-			if (!licensePlate) setErrLicensePlate(true);
-			if (!brand) setErrBrand(true);
-			if (!model) setErrModel(true);
-			if (!clientNameSurname) setErrClientNameSurname(true);
-			if (!clientPhone) setErrClientPhone(true);
+			setErrors({
+				licensePlate: !licensePlate,
+				brand: !brand,
+				model: !model,
+				clientNameSurname: !clientNameSurname,
+				clientPhone: !clientPhone,
+			});
 		}
 	};
 
@@ -133,43 +143,43 @@ function Details({ route, navigation }) {
 				<TextInput
 					style={styles.input}
 					label="Plaka"
-					value={licensePlate}
+					value={details.licensePlate}
 					onChangeText={(text) => {
-						setLicensePlate(text.toUpperCase().replace(' ', '-'));
-						setErrLicensePlate(false);
+						setDetails({ ...details, licensePlate: text.toUpperCase().replace(' ', '-') });
+						setErrors({ ...errors, licensePlate: false });
 					}}
 				/>
-				{errLicensePlate && <FieldMandatory />}
+				{errors.licensePlate && <FieldMandatory />}
 				<TextInput
 					style={styles.input}
 					label="Marka"
-					value={brand}
+					value={details.brand}
 					onChangeText={(text) => {
-						setBrand(text);
-						setErrBrand(false);
+						setDetails({ ...details, brand: text });
+						setErrors({ ...errors, brand: false });
 					}}
 				/>
-				{errBrand && <FieldMandatory />}
+				{errors.brand && <FieldMandatory />}
 				<TextInput
 					style={styles.input}
 					label="Model"
-					value={model}
+					value={details.model}
 					onChangeText={(text) => {
-						setModel(text);
-						setErrModel(false);
+						setDetails({ ...details, model: text });
+						setErrors({ ...errors, model: false });
 					}}
 				/>
-				{errModel && <FieldMandatory />}
+				{errors.model && <FieldMandatory />}
 				<TextInput
 					style={styles.input}
 					label="Müşteri Ad Soyad"
-					value={clientNameSurname}
+					value={details.clientNameSurname}
 					onChangeText={(text) => {
-						setClientNameSurname(text);
-						setErrClientNameSurname(false);
+						setDetails({ ...details, clientNameSurname: text });
+						setErrors({ ...errors, clientNameSurname: false });
 					}}
 				/>
-				{errClientNameSurname && <FieldMandatory />}
+				{errors.clientNameSurname && <FieldMandatory />}
 				<TextInputMask
 					label="Telefon"
 					placeholder="XXXX XXX XX XX"
@@ -179,25 +189,24 @@ function Details({ route, navigation }) {
 						mask: '9999 999 99 99',
 					}}
 					customTextInput={TextInput}
-					value={clientPhone}
+					value={details.clientPhone}
 					onChangeText={(text) => {
-						setClientPhone(text);
-						setErrClientPhone(false);
+						setDetails({ ...details, clientPhone: text });
+						setErrors({ ...errors, clientPhone: false });
 					}}
 					style={styles.input}
 				/>
-				{errClientPhone && <FieldMandatory />}
-
+				{errors.clientPhone && <FieldMandatory />}
 				<TextInput
 					style={styles.input}
 					label="Referans (isteğe bağlı)"
-					value={referance}
-					onChangeText={(text) => setReferance(text)}
+					value={details.referance}
+					onChangeText={(text) => setDetails({ ...details, referance: text })}
 				/>
 				<ListItem.Item
 					style={styles.input}
 					title="Verilen tarih"
-					description={moment(givenDate).format('D MMMM YYYY')}
+					description={moment(details.givenDate).format('D MMMM YYYY')}
 					left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 					onPress={() => showDatepicker()}
 				/>
@@ -205,7 +214,7 @@ function Details({ route, navigation }) {
 					<DateTimePicker
 						testID="dateTimePicker"
 						timeZoneOffsetInMinutes={0}
-						value={givenDate}
+						value={details.givenDate}
 						mode={'date'}
 						is24Hour={true}
 						display="default"
