@@ -118,7 +118,7 @@ function Details({ route, navigation }) {
 				};
 			};
 
-			if (moment().valueOf() <= schedulingOptions.time && OS !== 'web') registerNotification();
+			if (moment().valueOf() < schedulingOptions.time && OS !== 'web') await registerNotification();
 
 			await storeData('storage', dates);
 			navigation.goBack();

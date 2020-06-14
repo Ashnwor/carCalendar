@@ -105,10 +105,8 @@ function List({ route, navigation }) {
 												dates[day.dateString][contentToDelete].notificationToken,
 											);
 										delete dates[day.dateString][contentToDelete];
-										storeData('storage', dates).then(() => {
-											getData('storage').then((data) => setDates(data));
-											setDialogVisible(false);
-										});
+										storeData('storage', dates);
+										setDialogVisible(false);
 									}}
 								>
 									Onayla
