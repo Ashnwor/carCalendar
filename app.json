@@ -20,7 +20,8 @@
 			"adaptiveIcon": {
 				"foregroundImage": "./assets/ic_launcher_foreground.png",
 				"backgroundImage": "./assets/ic_launcher_background.png"
-			}
+			},
+			"enableDangerousExperimentalLeanBuilds": true
 		},
 		"ios": {
 			"bundleIdentifier": "com.ashnwor.carcalendar",
