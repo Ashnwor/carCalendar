@@ -31,7 +31,7 @@ function Details({ route, navigation }) {
 		clientNameSurname: !edit ? '' : editThis.clientNameSurname,
 		clientPhone: !edit ? '' : editThis.clientPhone,
 		referance: !edit ? '' : editThis.referance,
-		givenDate: !edit ? new Date() : editThis.givenDate,
+		givenDate: !edit ? moment() : editThis.givenDate,
 	});
 
 	const [errors, setErrors] = useState({
