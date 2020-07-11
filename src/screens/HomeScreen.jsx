@@ -1,10 +1,11 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useState, useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState, useCallback, useContext } from 'react';
+import { View, StyleSheet, Text } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import calendarLocale from '../calendarLocale/';
+import { DataContext } from '../context/DataContext';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 
@@ -20,7 +21,7 @@ function HomeScreen({ navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
-	const [dates, setDates] = useState({});
+	const { _dates, _setDates } = useContext(DataContext);
 
 	useFocusEffect(
 		useCallback(() => {
@@ -32,7 +33,7 @@ function HomeScreen({ navigation }) {
 					emptyKeys.forEach((value) => delete result[value]);
 					await storeData('storage', result);
 				}
-				setDates(result);
+				_setDates(result);
 			};
 			fetchData();
 		}, []),
@@ -42,7 +43,7 @@ function HomeScreen({ navigation }) {
 		navigation.navigate('List', { day });
 	}
 
-	const datesKeys = Object.keys(dates);
+	const datesKeys = Object.keys(_dates);
 	const markedDates = Object.fromEntries(datesKeys.map((date) => [date, { selected: true }]));
 
 	return (

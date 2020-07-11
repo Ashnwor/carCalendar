@@ -1,13 +1,13 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useFocusEffect } from '@react-navigation/native';
 import { Notifications } from 'expo';
 import moment from 'moment';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInputMask } from 'react-native-masked-text';
 import { TextInput, FAB, List as ListItem, HelperText } from 'react-native-paper';
 
+import { DataContext } from '../context/DataContext';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 
@@ -53,13 +53,7 @@ function Details({ route, navigation }) {
 		setShow(true);
 	};
 
-	const [dates, setDates] = useState({});
-
-	useFocusEffect(
-		useCallback(() => {
-			getData('storage').then((result) => setDates(result));
-		}, []),
-	);
+	const { _dates, _setDates } = useContext(DataContext);
 
 	const save = async () => {
 		console.log(details);
@@ -74,13 +68,13 @@ function Details({ route, navigation }) {
 			givenDate,
 		} = details;
 
-		if (edit) delete dates[selectedDate][editThis.licensePlate];
+		if (edit) delete _dates[selectedDate][editThis.licensePlate];
 		if (edit && OS !== 'web')
 			Notifications.cancelScheduledNotificationAsync(editThis.notificationToken);
 
 		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
-			if (!dates[selectedDate]) dates[selectedDate] = {};
-			dates[selectedDate][licensePlate] = {
+			if (!_dates[selectedDate]) _dates[selectedDate] = {};
+			_dates[selectedDate][licensePlate] = {
 				brand,
 				model,
 				clientNameSurname,
@@ -112,15 +106,16 @@ function Details({ route, navigation }) {
 					schedulingOptions,
 				);
 				console.log('token:', token);
-				dates[selectedDate][licensePlate] = {
-					...dates[selectedDate][licensePlate],
+				_dates[selectedDate][licensePlate] = {
+					..._dates[selectedDate][licensePlate],
 					notificationToken: token,
 				};
 			};
 
 			if (moment().valueOf() < schedulingOptions.time && OS !== 'web') await registerNotification();
 
-			await storeData('storage', dates);
+			_setDates(_dates);
+			await storeData('storage', _dates);
 			navigation.goBack();
 		} else {
 			setErrors({

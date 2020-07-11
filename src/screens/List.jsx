@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { Notifications } from 'expo';
 import moment from 'moment';
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useContext } from 'react';
 import { View, StyleSheet, ScrollView, Platform } from 'react-native';
 import {
 	FAB,
@@ -15,6 +15,7 @@ import {
 } from 'react-native-paper';
 
 import ListAccordion from '../components/ListAccordion';
+import { DataContext } from '../context/DataContext';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
 
@@ -22,6 +23,8 @@ import 'moment/locale/tr';
 
 const { OS } = Platform;
 
+// This screen is clusterfucked.
+// Need rewrite or refactor.
 function List({ route, navigation }) {
 	const { day } = route.params;
 	const selectedDate = day.dateString;
@@ -34,7 +37,7 @@ function List({ route, navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
-	const [dates, setDates] = useState({});
+	const { _dates, _setDates } = useContext(DataContext);
 	const [isLoading, setLoading] = useState(true);
 	const [isDialogVisible, setDialogVisible] = useState(false);
 	const [contentToDelete, setContentToDelete] = useState('');
@@ -43,15 +46,11 @@ function List({ route, navigation }) {
 		useCallback(() => {
 			setLoading(true);
 			getData('storage').then((result) => {
-				setDates(result);
+				_setDates(result);
 				setLoading(false);
 			});
 		}, []),
 	);
-
-	useEffect(() => {
-		console.log('UPDATED');
-	}, [dates]);
 
 	function NoItemFound() {
 		return (
@@ -64,63 +63,57 @@ function List({ route, navigation }) {
 
 	return (
 		<>
-			{!isLoading ? (
-				<View style={styles.container}>
-					{!dates[selectedDate] || Object.keys(dates[selectedDate]).length === 0 ? (
-						<NoItemFound />
-					) : (
-						<ScrollView>
-							{Object.keys(dates[selectedDate]).map((val, index) => {
-								const licensePlate = dates[selectedDate][val];
+			<View style={styles.container}>
+				{!_dates[selectedDate] || Object.keys(_dates[selectedDate]).length === 0 ? (
+					<NoItemFound />
+				) : (
+					<ScrollView>
+						{Object.keys(_dates[selectedDate]).map((val, index) => {
+							const licensePlate = _dates[selectedDate][val];
 
-								return (
-									<ListAccordion
-										licensePlateName={val}
-										details={licensePlate}
-										navigation={navigation}
-										functions={{ setContentToDelete, setDialogVisible }}
-										key={`${val}-${index}`}
-										day={day}
-									/>
-								);
-							})}
-						</ScrollView>
-					)}
-					<FAB
-						style={styles.fab}
-						icon="plus"
-						onPress={() => navigation.navigate('Details', { day, edit: false })}
-					/>
-					<Portal>
-						<Dialog visible={isDialogVisible} onDismiss={() => setDialogVisible(false)}>
-							<Dialog.Title>Uyarı</Dialog.Title>
-							<Dialog.Content>
-								<Paragraph>Araç silinsin mi?</Paragraph>
-							</Dialog.Content>
-							<Dialog.Actions>
-								<Button onPress={() => setDialogVisible(false)}>İptal</Button>
-								<Button
-									onPress={() => {
-										if (OS !== 'web')
-											Notifications.cancelScheduledNotificationAsync(
-												dates[selectedDate][contentToDelete].notificationToken,
-											);
-										delete dates[selectedDate][contentToDelete];
-										storeData('storage', dates);
-										setDialogVisible(false);
-									}}
-								>
-									Onayla
-								</Button>
-							</Dialog.Actions>
-						</Dialog>
-					</Portal>
-				</View>
-			) : (
-				<View style={styles.containerCenter}>
-					<ActivityIndicator size="large" />
-				</View>
-			)}
+							return (
+								<ListAccordion
+									licensePlateName={val}
+									details={licensePlate}
+									navigation={navigation}
+									functions={{ setContentToDelete, setDialogVisible }}
+									key={`${val}-${index}`}
+									day={day}
+								/>
+							);
+						})}
+					</ScrollView>
+				)}
+				<FAB
+					style={styles.fab}
+					icon="plus"
+					onPress={() => navigation.navigate('Details', { day, edit: false })}
+				/>
+				<Portal>
+					<Dialog visible={isDialogVisible} onDismiss={() => setDialogVisible(false)}>
+						<Dialog.Title>Uyarı</Dialog.Title>
+						<Dialog.Content>
+							<Paragraph>Araç silinsin mi?</Paragraph>
+						</Dialog.Content>
+						<Dialog.Actions>
+							<Button onPress={() => setDialogVisible(false)}>İptal</Button>
+							<Button
+								onPress={async () => {
+									if (OS !== 'web')
+										Notifications.cancelScheduledNotificationAsync(
+											_dates[selectedDate][contentToDelete].notificationToken,
+										);
+									delete _dates[selectedDate][contentToDelete];
+									await storeData('storage', _dates);
+									setDialogVisible(false);
+								}}
+							>
+								Onayla
+							</Button>
+						</Dialog.Actions>
+					</Dialog>
+				</Portal>
+			</View>
 		</>
 	);
 }
