@@ -1,7 +1,7 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { Notifications } from 'expo';
 import moment from 'moment';
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInputMask } from 'react-native-masked-text';
@@ -9,7 +9,7 @@ import { TextInput, FAB, List as ListItem, HelperText } from 'react-native-paper
 
 import { DataContext } from '../context/DataContext';
 import theme from '../theme';
-import { storeData, getData } from '../utils';
+import { storeData } from '../utils';
 
 const { OS } = Platform;
 

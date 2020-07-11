@@ -1,7 +1,7 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { Notifications } from 'expo';
 import moment from 'moment';
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useContext } from 'react';
 import { View, StyleSheet, ScrollView, Platform } from 'react-native';
 import {
 	FAB,
@@ -17,7 +17,7 @@ import {
 import ListAccordion from '../components/ListAccordion';
 import { DataContext } from '../context/DataContext';
 import theme from '../theme';
-import { storeData, getData } from '../utils';
+import { storeData } from '../utils';
 
 import 'moment/locale/tr';
 
@@ -38,17 +38,13 @@ function List({ route, navigation }) {
 	});
 
 	const { _dates, _setDates } = useContext(DataContext);
-	const [isLoading, setLoading] = useState(true);
 	const [isDialogVisible, setDialogVisible] = useState(false);
 	const [contentToDelete, setContentToDelete] = useState('');
+	const [, forceUpdate] = useState(true);
 
 	useFocusEffect(
 		useCallback(() => {
-			setLoading(true);
-			getData('storage').then((result) => {
-				_setDates(result);
-				setLoading(false);
-			});
+			forceUpdate((x) => !x);
 		}, []),
 	);
 
@@ -77,7 +73,7 @@ function List({ route, navigation }) {
 									details={licensePlate}
 									navigation={navigation}
 									functions={{ setContentToDelete, setDialogVisible }}
-									key={`${val}-${index}`}
+									key={`${index}`}
 									day={day}
 								/>
 							);

@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
-import React, { useState, useCallback, useContext } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import React, { useCallback, useContext } from 'react';
+import { View, StyleSheet } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
