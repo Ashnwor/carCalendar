@@ -1,6 +1,6 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useLayoutEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,13 +21,15 @@ type Props = {
 };
 
 const HomeScreen: React.FC<Props> = ({ navigation }) => {
-	navigation.setOptions({
-		headerTitle: 'Takvim',
-		headerStyle: {
-			backgroundColor: theme.colors.primary,
-		},
-		headerTintColor: theme.colors.headerText,
-	});
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerTitle: 'Takvim',
+			headerStyle: {
+				backgroundColor: theme.colors.primary,
+			},
+			headerTintColor: theme.colors.headerText,
+		});
+	}, [navigation]);
 
 	// @ts-ignore
 	const { _dates, _setDates } = useContext(DataContext);

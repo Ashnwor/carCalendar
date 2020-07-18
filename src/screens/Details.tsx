@@ -3,7 +3,7 @@ import { RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Notifications } from 'expo';
 import moment from 'moment';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useLayoutEffect } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { TextInputMask } from 'react-native-masked-text';
@@ -27,13 +27,16 @@ type Props = {
 const Details: React.FC<Props> = ({ route, navigation }) => {
 	const { day, edit, editThis } = route.params;
 	const selectedDate = day.dateString;
-	navigation.setOptions({
-		headerTitle: edit ? 'Düzenle' : 'Araç Ekle',
-		headerStyle: {
-			backgroundColor: theme.colors.primary,
-		},
-		headerTintColor: theme.colors.headerText,
-	});
+
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerTitle: edit ? 'Düzenle' : 'Araç Ekle',
+			headerStyle: {
+				backgroundColor: theme.colors.primary,
+			},
+			headerTintColor: theme.colors.headerText,
+		});
+	}, [navigation]);
 
 	const [details, setDetails] = useState({
 		licensePlate: !edit ? '' : editThis?.licensePlate,

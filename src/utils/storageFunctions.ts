@@ -1,9 +1,8 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import { AsyncStorage } from 'react-native';
 
 const getData = async (key: string) => {
 	try {
 		const jsonValue = await AsyncStorage.getItem(key);
-		console.log('getData:', jsonValue);
 		return jsonValue ? JSON.parse(jsonValue) : {};
 	} catch (e) {
 		// error reading value

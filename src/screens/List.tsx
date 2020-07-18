@@ -2,7 +2,7 @@ import { useFocusEffect, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { Notifications } from 'expo';
 import moment from 'moment';
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useState, useCallback, useContext, useLayoutEffect } from 'react';
 import { View, StyleSheet, ScrollView, Platform } from 'react-native';
 import {
 	FAB,
@@ -39,13 +39,15 @@ const List: React.FC<Props> = ({ route, navigation }) => {
 	const { day } = route.params;
 	const selectedDate = day.dateString;
 
-	navigation.setOptions({
-		headerTitle: moment(selectedDate, 'YYYY-MM-DD').format('D MMMM YYYY'),
-		headerStyle: {
-			backgroundColor: theme.colors.primary,
-		},
-		headerTintColor: theme.colors.headerText,
-	});
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerTitle: moment(selectedDate, 'YYYY-MM-DD').format('D MMMM YYYY'),
+			headerStyle: {
+				backgroundColor: theme.colors.primary,
+			},
+			headerTintColor: theme.colors.headerText,
+		});
+	}, [navigation]);
 
 	// @ts-ignore
 	const { _dates, _setDates } = useContext(DataContext);
