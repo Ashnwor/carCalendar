@@ -8,9 +8,15 @@ import Details from './screens/Details';
 import HomeScreen from './screens/HomeScreen';
 import List from './screens/List';
 
-const Stack = createStackNavigator();
+export type RootStackParamList = {
+	Calendar: undefined;
+	List: { day: Record<string, any> };
+	Details: { day: Record<string, any>; edit: boolean; editThis?: Record<string, any> | undefined };
+};
 
-export default function CalendarApp() {
+const Stack = createStackNavigator<RootStackParamList>();
+
+const CalendarApp: React.FC = () => {
 	return (
 		<NavigationContainer>
 			<StatusBar translucent backgroundColor="rgba(0,0,0,0.2)" barStyle="light-content" />
@@ -21,4 +27,6 @@ export default function CalendarApp() {
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
-}
+};
+
+export default CalendarApp;

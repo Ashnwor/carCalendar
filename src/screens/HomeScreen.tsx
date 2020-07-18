@@ -1,10 +1,12 @@
 import { useFocusEffect } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import calendarLocale from '../calendarLocale/';
+import { RootStackParamList } from '../CalendarApp';
+import calendarLocale from '../calendarLocale';
 import { DataContext } from '../context/DataContext';
 import theme from '../theme';
 import { storeData, getData } from '../utils';
@@ -12,7 +14,13 @@ import { storeData, getData } from '../utils';
 LocaleConfig.locales['tr'] = calendarLocale;
 LocaleConfig.defaultLocale = 'tr';
 
-function HomeScreen({ navigation }) {
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Calendar'>;
+
+type Props = {
+	navigation: ProfileScreenNavigationProp;
+};
+
+const HomeScreen: React.FC<Props> = ({ navigation }) => {
 	navigation.setOptions({
 		headerTitle: 'Takvim',
 		headerStyle: {
@@ -21,6 +29,7 @@ function HomeScreen({ navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
+	// @ts-ignore
 	const { _dates, _setDates } = useContext(DataContext);
 
 	useFocusEffect(
@@ -39,9 +48,9 @@ function HomeScreen({ navigation }) {
 		}, []),
 	);
 
-	function OpenList(navigation, day) {
+	const OpenList = (navigation: ProfileScreenNavigationProp, day: Record<string, any>): void => {
 		navigation.navigate('List', { day });
-	}
+	};
 
 	const datesKeys = Object.keys(_dates);
 	const markedDates = Object.fromEntries(datesKeys.map((date) => [date, { selected: true }]));
@@ -60,7 +69,7 @@ function HomeScreen({ navigation }) {
 			/>
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {

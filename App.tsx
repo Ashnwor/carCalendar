@@ -1,12 +1,12 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 import CalendarApp from './src/CalendarApp';
 import { DataContext } from './src/context/DataContext';
 import theme from './src/theme';
 
-export default function App() {
-	const [_dates, _setDates] = useState('test');
+const App: React.FC = () => {
+	const [_dates, _setDates] = useState({});
 
 	return (
 		<PaperProvider theme={theme}>
@@ -15,4 +15,6 @@ export default function App() {
 			</DataContext.Provider>
 		</PaperProvider>
 	);
-}
+};
+
+export default App;

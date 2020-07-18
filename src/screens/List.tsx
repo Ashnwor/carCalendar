@@ -1,4 +1,5 @@
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Notifications } from 'expo';
 import moment from 'moment';
 import React, { useState, useCallback, useContext } from 'react';
@@ -14,6 +15,7 @@ import {
 	Portal,
 } from 'react-native-paper';
 
+import { RootStackParamList } from '../CalendarApp';
 import ListAccordion from '../components/ListAccordion';
 import { DataContext } from '../context/DataContext';
 import theme from '../theme';
@@ -23,9 +25,17 @@ import 'moment/locale/tr';
 
 const { OS } = Platform;
 
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'List'>;
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'List'>;
+
+type Props = {
+	navigation: ProfileScreenNavigationProp;
+	route: ProfileScreenRouteProp;
+};
+
 // This screen is clusterfucked.
 // Need rewrite or refactor.
-function List({ route, navigation }) {
+const List: React.FC<Props> = ({ route, navigation }) => {
 	const { day } = route.params;
 	const selectedDate = day.dateString;
 
@@ -37,6 +47,7 @@ function List({ route, navigation }) {
 		headerTintColor: theme.colors.headerText,
 	});
 
+	// @ts-ignore
 	const { _dates, _setDates } = useContext(DataContext);
 	const [isDialogVisible, setDialogVisible] = useState(false);
 	const [contentToDelete, setContentToDelete] = useState('');
@@ -52,6 +63,7 @@ function List({ route, navigation }) {
 		return (
 			<View style={styles.containerCenter}>
 				<Headline>Bu tarihte kayıtlı araç bulunamadı</Headline>
+				{/* @ts-ignore */}
 				<Text>Araç eklemek için + tuşuna basınız</Text>
 			</View>
 		);
@@ -80,6 +92,7 @@ function List({ route, navigation }) {
 						})}
 					</ScrollView>
 				)}
+				{/* @ts-ignore */}
 				<FAB
 					style={styles.fab}
 					icon="plus"
@@ -87,12 +100,15 @@ function List({ route, navigation }) {
 				/>
 				<Portal>
 					<Dialog visible={isDialogVisible} onDismiss={() => setDialogVisible(false)}>
+						{/* @ts-ignore */}
 						<Dialog.Title>Uyarı</Dialog.Title>
 						<Dialog.Content>
 							<Paragraph>Araç silinsin mi?</Paragraph>
 						</Dialog.Content>
 						<Dialog.Actions>
+							{/* @ts-ignore */}
 							<Button onPress={() => setDialogVisible(false)}>İptal</Button>
+							{/* @ts-ignore */}
 							<Button
 								onPress={async () => {
 									if (OS !== 'web')
@@ -112,21 +128,19 @@ function List({ route, navigation }) {
 			</View>
 		</>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
 	},
-
 	containerCenter: {
 		flex: 1,
 		backgroundColor: '#fff',
 		justifyContent: 'center',
 		alignItems: 'center',
 	},
-
 	fab: {
 		position: 'absolute',
 		margin: 16,

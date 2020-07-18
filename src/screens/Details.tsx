@@ -1,4 +1,6 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 import { Notifications } from 'expo';
 import moment from 'moment';
 import React, { useState, useContext } from 'react';
@@ -7,13 +9,22 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { TextInputMask } from 'react-native-masked-text';
 import { TextInput, FAB, List as ListItem, HelperText } from 'react-native-paper';
 
+import { RootStackParamList } from '../CalendarApp';
 import { DataContext } from '../context/DataContext';
 import theme from '../theme';
 import { storeData } from '../utils';
 
 const { OS } = Platform;
 
-function Details({ route, navigation }) {
+type ProfileScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Details'>;
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Details'>;
+
+type Props = {
+	navigation: ProfileScreenNavigationProp;
+	route: ProfileScreenRouteProp;
+};
+
+const Details: React.FC<Props> = ({ route, navigation }) => {
 	const { day, edit, editThis } = route.params;
 	const selectedDate = day.dateString;
 	navigation.setOptions({
@@ -25,13 +36,13 @@ function Details({ route, navigation }) {
 	});
 
 	const [details, setDetails] = useState({
-		licensePlate: !edit ? '' : editThis.licensePlate,
-		brand: !edit ? '' : editThis.brand,
-		model: !edit ? '' : editThis.model,
-		clientNameSurname: !edit ? '' : editThis.clientNameSurname,
-		clientPhone: !edit ? '' : editThis.clientPhone,
-		referance: !edit ? '' : editThis.referance,
-		givenDate: !edit ? moment() : editThis.givenDate,
+		licensePlate: !edit ? '' : editThis?.licensePlate,
+		brand: !edit ? '' : editThis?.brand,
+		model: !edit ? '' : editThis?.model,
+		clientNameSurname: !edit ? '' : editThis?.clientNameSurname,
+		clientPhone: !edit ? '' : editThis?.clientPhone,
+		referance: !edit ? '' : editThis?.referance,
+		givenDate: !edit ? moment() : editThis?.givenDate,
 	});
 
 	const [errors, setErrors] = useState({
@@ -43,7 +54,8 @@ function Details({ route, navigation }) {
 	});
 
 	const [show, setShow] = useState(false);
-	const onChange = (event, selectedgivenDate) => {
+
+	const onChange = (_event: any, selectedgivenDate: Date | undefined) => {
 		const currentDate = selectedgivenDate || details.givenDate;
 		setShow(OS === 'ios');
 		setDetails({ ...details, givenDate: currentDate });
@@ -53,6 +65,7 @@ function Details({ route, navigation }) {
 		setShow(true);
 	};
 
+	// @ts-ignore
 	const { _dates, _setDates } = useContext(DataContext);
 
 	const save = async () => {
@@ -68,9 +81,9 @@ function Details({ route, navigation }) {
 			givenDate,
 		} = details;
 
-		if (edit) delete _dates[selectedDate][editThis.licensePlate];
+		if (edit) delete _dates[selectedDate][editThis?.licensePlate];
 		if (edit && OS !== 'web')
-			Notifications.cancelScheduledNotificationAsync(editThis.notificationToken);
+			Notifications.cancelScheduledNotificationAsync(editThis?.notificationToken);
 
 		if (licensePlate && brand && model && clientNameSurname && clientPhone) {
 			if (!_dates[selectedDate]) _dates[selectedDate] = {};
@@ -135,6 +148,7 @@ function Details({ route, navigation }) {
 	return (
 		<View style={styles.container}>
 			<KeyboardAwareScrollView style={styles.container}>
+				{/* @ts-ignore */}
 				<TextInput
 					style={styles.input}
 					label="Plaka"
@@ -145,6 +159,7 @@ function Details({ route, navigation }) {
 					}}
 				/>
 				{errors.licensePlate && <FieldMandatory />}
+				{/* @ts-ignore */}
 				<TextInput
 					style={styles.input}
 					label="Marka"
@@ -155,6 +170,7 @@ function Details({ route, navigation }) {
 					}}
 				/>
 				{errors.brand && <FieldMandatory />}
+				{/* @ts-ignore */}
 				<TextInput
 					style={styles.input}
 					label="Model"
@@ -165,6 +181,7 @@ function Details({ route, navigation }) {
 					}}
 				/>
 				{errors.model && <FieldMandatory />}
+				{/* @ts-ignore */}
 				<TextInput
 					style={styles.input}
 					label="Müşteri Ad Soyad"
@@ -175,7 +192,9 @@ function Details({ route, navigation }) {
 					}}
 				/>
 				{errors.clientNameSurname && <FieldMandatory />}
+				{/* @ts-ignore */}
 				<TextInputMask
+					// @ts-ignore
 					label="Telefon"
 					placeholder="XXXX XXX XX XX"
 					keyboardType="numeric"
@@ -192,12 +211,14 @@ function Details({ route, navigation }) {
 					style={styles.input}
 				/>
 				{errors.clientPhone && <FieldMandatory />}
+				{/* @ts-ignore */}
 				<TextInput
 					style={styles.input}
 					label="Referans (isteğe bağlı)"
 					value={details.referance}
 					onChangeText={(text) => setDetails({ ...details, referance: text })}
 				/>
+				{/* @ts-ignore */}
 				<ListItem.Item
 					style={styles.input}
 					title="Verilen tarih"
@@ -217,19 +238,18 @@ function Details({ route, navigation }) {
 					/>
 				)}
 			</KeyboardAwareScrollView>
+			{/* @ts-ignore */}
 			<FAB style={styles.fab} icon="content-save" label="Kaydet" onPress={() => save()} />
 		</View>
 	);
-}
+};
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
 	},
-
 	input: { margin: 5 },
-
 	fab: {
 		position: 'absolute',
 		margin: 16,
