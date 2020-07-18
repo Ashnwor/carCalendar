@@ -148,7 +148,6 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 	return (
 		<View style={styles.container}>
 			<KeyboardAwareScrollView style={styles.container}>
-				{/* @ts-ignore */}
 				<TextInput
 					style={styles.input}
 					label="Plaka"
@@ -159,7 +158,7 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 					}}
 				/>
 				{errors.licensePlate && <FieldMandatory />}
-				{/* @ts-ignore */}
+
 				<TextInput
 					style={styles.input}
 					label="Marka"
@@ -170,7 +169,7 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 					}}
 				/>
 				{errors.brand && <FieldMandatory />}
-				{/* @ts-ignore */}
+
 				<TextInput
 					style={styles.input}
 					label="Model"
@@ -181,7 +180,6 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 					}}
 				/>
 				{errors.model && <FieldMandatory />}
-				{/* @ts-ignore */}
 				<TextInput
 					style={styles.input}
 					label="Müşteri Ad Soyad"
@@ -192,7 +190,6 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 					}}
 				/>
 				{errors.clientNameSurname && <FieldMandatory />}
-				{/* @ts-ignore */}
 				<TextInputMask
 					// @ts-ignore
 					label="Telefon"
@@ -211,14 +208,12 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 					style={styles.input}
 				/>
 				{errors.clientPhone && <FieldMandatory />}
-				{/* @ts-ignore */}
 				<TextInput
 					style={styles.input}
 					label="Referans (isteğe bağlı)"
 					value={details.referance}
 					onChangeText={(text) => setDetails({ ...details, referance: text })}
 				/>
-				{/* @ts-ignore */}
 				<ListItem.Item
 					style={styles.input}
 					title="Verilen tarih"
@@ -238,7 +233,6 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 					/>
 				)}
 			</KeyboardAwareScrollView>
-			{/* @ts-ignore */}
 			<FAB style={styles.fab} icon="content-save" label="Kaydet" onPress={() => save()} />
 		</View>
 	);

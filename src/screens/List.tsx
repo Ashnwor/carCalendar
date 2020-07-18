@@ -63,7 +63,6 @@ const List: React.FC<Props> = ({ route, navigation }) => {
 		return (
 			<View style={styles.containerCenter}>
 				<Headline>Bu tarihte kayıtlı araç bulunamadı</Headline>
-				{/* @ts-ignore */}
 				<Text>Araç eklemek için + tuşuna basınız</Text>
 			</View>
 		);
@@ -92,7 +91,6 @@ const List: React.FC<Props> = ({ route, navigation }) => {
 						})}
 					</ScrollView>
 				)}
-				{/* @ts-ignore */}
 				<FAB
 					style={styles.fab}
 					icon="plus"
@@ -100,15 +98,12 @@ const List: React.FC<Props> = ({ route, navigation }) => {
 				/>
 				<Portal>
 					<Dialog visible={isDialogVisible} onDismiss={() => setDialogVisible(false)}>
-						{/* @ts-ignore */}
 						<Dialog.Title>Uyarı</Dialog.Title>
 						<Dialog.Content>
 							<Paragraph>Araç silinsin mi?</Paragraph>
 						</Dialog.Content>
 						<Dialog.Actions>
-							{/* @ts-ignore */}
 							<Button onPress={() => setDialogVisible(false)}>İptal</Button>
-							{/* @ts-ignore */}
 							<Button
 								onPress={async () => {
 									if (OS !== 'web')

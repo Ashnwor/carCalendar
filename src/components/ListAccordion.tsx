@@ -15,7 +15,6 @@ type Props = {
 	day: Record<string, any>;
 	licensePlateName: string;
 	details: Record<string, any>;
-	// eslint-disable-next-line @typescript-eslint/ban-types
 	functions: {
 		setContentToDelete: (licensePlate: string) => void;
 		setDialogVisible: (bool: boolean) => void;
@@ -46,25 +45,21 @@ const ListAccordion: React.FC<Props> = ({
 			key={licensePlate}
 			left={(props) => <List.Icon {...props} icon="car" />}
 		>
-			{/* @ts-ignore */}
 			<List.Item
 				title={`Marka: ${brand}`}
 				key={`${licensePlate}-${brand}`}
 				left={(props) => <List.Icon {...props} icon="tag-multiple" />}
 			/>
-			{/* @ts-ignore */}
 			<List.Item
 				title={`Model: ${model}`}
 				key={`${licensePlate}-${model}`}
 				left={(props) => <List.Icon {...props} icon="tag" />}
 			/>
-			{/* @ts-ignore */}
 			<List.Item
 				title={`Müşteri: ${clientNameSurname}`}
 				key={`${licensePlate}-${clientNameSurname}`}
 				left={(props) => <List.Icon {...props} icon="account" />}
 			/>
-			{/* @ts-ignore */}
 			<List.Item
 				title={`Telefon: ${clientPhone}`}
 				key={`${licensePlate}-${clientPhone}`}
@@ -78,25 +73,22 @@ const ListAccordion: React.FC<Props> = ({
 				}
 			/>
 			{referance ? (
-				// @ts-ignore
 				<List.Item
 					title={`Referans: ${referance}`}
 					key={`${licensePlate}-${referance}`}
 					left={(props) => <List.Icon {...props} icon="account-multiple" />}
 				/>
 			) : null}
-			{/* @ts-ignore */}
 			<List.Item
 				title={`Verilen tarih: ${`${moment(givenDate).format('D MMMM YYYY')}`}`}
 				key={`${licensePlate}-${givenDate}`}
 				left={(props) => <List.Icon {...props} icon="calendar" />}
 			/>
-			{/* @ts-ignore */}
 			<List.Item
+				title=""
 				key={`${licensePlate}-controls`}
 				right={() => (
 					<>
-						{/* @ts-ignore */}
 						<Button
 							uppercase={false}
 							mode="outlined"
@@ -121,7 +113,6 @@ const ListAccordion: React.FC<Props> = ({
 						>
 							Düzenle
 						</Button>
-						{/* @ts-ignore */}
 						<Button
 							uppercase={false}
 							style={{ margin: 4, width: 90 }}
