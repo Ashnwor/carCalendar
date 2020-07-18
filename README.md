@@ -36,7 +36,9 @@ expo start
 
 ### IV - Add your changes! (...or not?)
 
-### V - Time to start buildin'!
+### V - Test your changes!
+
+### VI - Time to start buildin'!
 
 ```bash
 expo build:android
