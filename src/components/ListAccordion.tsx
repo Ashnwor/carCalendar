@@ -14,7 +14,15 @@ type Props = {
 	navigation: ProfileScreenNavigationProp;
 	day: Record<string, any>;
 	licensePlateName: string;
-	details: Record<string, any>;
+	details: {
+		brand: string;
+		model: string;
+		clientNameSurname: string;
+		clientPhone: string;
+		referance: string;
+		givenDate: Date;
+		notificationToken?: number;
+	};
 	functions: {
 		setContentToDelete: (licensePlate: string) => void;
 		setDialogVisible: (bool: boolean) => void;

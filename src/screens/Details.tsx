@@ -10,6 +10,8 @@ import { TextInputMask } from 'react-native-masked-text';
 import { TextInput, FAB, List as ListItem, HelperText } from 'react-native-paper';
 
 import { RootStackParamList } from '../CalendarApp';
+import FieldMandatory from '../components/FieldMandatory';
+import InputField from '../components/InputField';
 import { DataContext } from '../context/DataContext';
 import theme from '../theme';
 import { storeData } from '../utils';
@@ -38,7 +40,15 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 		});
 	}, [navigation]);
 
-	const [details, setDetails] = useState({
+	const [details, setDetails] = useState<{
+		licensePlate: string;
+		brand: string;
+		model: string;
+		clientNameSurname: string;
+		clientPhone: string;
+		referance?: string;
+		givenDate: Date;
+	}>({
 		licensePlate: !edit ? '' : editThis?.licensePlate,
 		brand: !edit ? '' : editThis?.brand,
 		model: !edit ? '' : editThis?.model,
@@ -48,7 +58,13 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 		givenDate: !edit ? moment() : editThis?.givenDate,
 	});
 
-	const [errors, setErrors] = useState({
+	const [errors, setErrors] = useState<{
+		licensePlate: boolean;
+		brand: boolean;
+		model: boolean;
+		clientNameSurname: boolean;
+		clientPhone: boolean;
+	}>({
 		licensePlate: false,
 		brand: false,
 		model: false,
@@ -144,55 +160,49 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 		}
 	};
 
-	function FieldMandatory() {
-		return <HelperText type="error">*Bu alan zorunlu</HelperText>;
-	}
-
 	return (
 		<View style={styles.container}>
 			<KeyboardAwareScrollView style={styles.container}>
-				<TextInput
-					style={styles.input}
+				<InputField
 					label="Plaka"
 					value={details.licensePlate}
 					onChangeText={(text) => {
 						setDetails({ ...details, licensePlate: text.toUpperCase().replace(' ', '-') });
 						setErrors({ ...errors, licensePlate: false });
 					}}
+					error={errors.licensePlate}
 				/>
-				{errors.licensePlate && <FieldMandatory />}
 
-				<TextInput
-					style={styles.input}
+				<InputField
 					label="Marka"
 					value={details.brand}
 					onChangeText={(text) => {
 						setDetails({ ...details, brand: text });
 						setErrors({ ...errors, brand: false });
 					}}
+					error={errors.brand}
 				/>
-				{errors.brand && <FieldMandatory />}
 
-				<TextInput
-					style={styles.input}
+				<InputField
 					label="Model"
 					value={details.model}
 					onChangeText={(text) => {
 						setDetails({ ...details, model: text });
 						setErrors({ ...errors, model: false });
 					}}
+					error={errors.model}
 				/>
-				{errors.model && <FieldMandatory />}
-				<TextInput
-					style={styles.input}
+
+				<InputField
 					label="Müşteri Ad Soyad"
 					value={details.clientNameSurname}
 					onChangeText={(text) => {
 						setDetails({ ...details, clientNameSurname: text });
 						setErrors({ ...errors, clientNameSurname: false });
 					}}
+					error={errors.clientNameSurname}
 				/>
-				{errors.clientNameSurname && <FieldMandatory />}
+
 				<TextInputMask
 					// @ts-ignore
 					label="Telefon"
@@ -203,20 +213,22 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 						mask: '9999 999 99 99',
 					}}
 					customTextInput={TextInput}
+					error={errors.clientPhone}
 					value={details.clientPhone}
 					onChangeText={(text) => {
 						setDetails({ ...details, clientPhone: text });
 						setErrors({ ...errors, clientPhone: false });
 					}}
-					style={styles.input}
 				/>
 				{errors.clientPhone && <FieldMandatory />}
-				<TextInput
-					style={styles.input}
+
+				<InputField
 					label="Referans (isteğe bağlı)"
 					value={details.referance}
 					onChangeText={(text) => setDetails({ ...details, referance: text })}
+					error={false}
 				/>
+
 				<ListItem.Item
 					style={styles.input}
 					title="Verilen tarih"
@@ -224,6 +236,7 @@ const Details: React.FC<Props> = ({ route, navigation }) => {
 					left={(props) => <ListItem.Icon {...props} icon="calendar" />}
 					onPress={() => showDatepicker()}
 				/>
+
 				{show && (
 					<DateTimePicker
 						testID="dateTimePicker"
