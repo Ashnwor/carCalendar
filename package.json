@@ -5,7 +5,8 @@
 		"android": "expo start --android",
 		"ios": "expo start --ios",
 		"web": "expo start --web",
-		"eject": "expo eject"
+		"eject": "expo eject",
+		"test": "jest --silent"
 	},
 	"dependencies": {
 		"@react-native-community/async-storage": "^1.11.0",
@@ -35,6 +36,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.8.6",
+		"@types/jest": "^26.0.5",
 		"@types/react": "^16.9.43",
 		"@types/react-dom": "^16.9.8",
 		"@types/react-native": "^0.63.1",
@@ -45,13 +47,21 @@
 		"babel-preset-expo": "~8.2.3",
 		"eslint": "^7.2.0",
 		"eslint-config-universe": "^4.0.0",
-		"prettier": "^2.0.5"
+		"jest-expo": "^38.0.2",
+		"prettier": "^2.0.5",
+		"react-native-testing-library": "^2.1.1"
 	},
 	"private": true,
 	"eslintConfig": {
 		"extends": [
 			"universe/native",
 			"universe/web"
+		]
+	},
+	"jest": {
+		"preset": "jest-expo",
+		"transformIgnorePatterns": [
+			"node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
 		]
 	}
 }
