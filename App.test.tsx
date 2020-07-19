@@ -9,3 +9,5 @@ describe('<App />', () => {
 		await act(async () => expect(tree.children.length).toBe(1));
 	});
 });
+
+jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper');
