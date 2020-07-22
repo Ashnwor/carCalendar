@@ -6,7 +6,7 @@ import ListAccordion from '../../../src/components/ListAccordion';
 describe('<ListAccordion />', () => {
 	it('renders without crashing', () => {
 		const navigation: any = { navigate: jest.fn() };
-		render(
+		const component = render(
 			<ListAccordion
 				navigation={navigation}
 				day={new Date()}
@@ -25,5 +25,7 @@ describe('<ListAccordion />', () => {
 				}}
 			/>,
 		);
+		const tree = component.toJSON();
+		expect(tree).toMatchSnapshot();
 	});
 });

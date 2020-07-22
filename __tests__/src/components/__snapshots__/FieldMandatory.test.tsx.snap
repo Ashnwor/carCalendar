@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<FieldMandatory /> renders without crashing 1`] = `
+<Text
+  onLayout={[Function]}
+  style={
+    Object {
+      "color": "#B00020",
+      "fontFamily": "System",
+      "fontSize": 12,
+      "fontWeight": "400",
+      "opacity": 1,
+      "paddingHorizontal": 12,
+      "paddingVertical": 4,
+      "textAlign": "left",
+      "transform": Array [
+        Object {
+          "translateY": -0,
+        },
+      ],
+      "writingDirection": "ltr",
+    }
+  }
+>
+  *Bu alan zorunlu
+</Text>
+`;

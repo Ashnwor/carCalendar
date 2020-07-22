@@ -5,6 +5,8 @@ import FieldMandatory from '../../../src/components/FieldMandatory';
 
 describe('<FieldMandatory />', () => {
 	it('renders without crashing', () => {
-		render(<FieldMandatory />);
+		const component = render(<FieldMandatory />);
+		const tree = component.toJSON();
+		expect(tree).toMatchSnapshot();
 	});
 });

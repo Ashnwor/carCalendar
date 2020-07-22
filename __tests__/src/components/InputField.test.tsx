@@ -5,7 +5,7 @@ import InputField from '../../../src/components/InputField';
 
 describe('<InputField />', () => {
 	it('renders without crashing', () => {
-		render(
+		const component = render(
 			<InputField
 				label="test_label"
 				value="test_value"
@@ -13,5 +13,7 @@ describe('<InputField />', () => {
 				error={false}
 			/>,
 		);
+		const tree = component.toJSON();
+		expect(tree).toMatchSnapshot();
 	});
 });
